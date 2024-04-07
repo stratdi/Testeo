@@ -18,6 +18,7 @@ register();
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IntroPage implements OnInit {
+
   @ViewChild('swiper')
   swiperRef: ElementRef | undefined;
   swiper?: Swiper;
@@ -26,6 +27,7 @@ export class IntroPage implements OnInit {
   ngOnInit() { }
 
   next() {
+    console.log("Swiper", this.swiperRef?.nativeElement());
     this.swiper?.slideNext();
   }
 

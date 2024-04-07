@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: testeo
+  jpa:
+    hibernate.ddl-auto: validate
+    show-sql: false
+    properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/testeo
+    username: app
+    password: 4ppl1k4t10nT3st
+
+app:
+  security:
+    jwtCookieName: testeo
+    jwtSecret: '======================TesTeo=Spring==========================='
+    jwtExpirationMs: 86400000
