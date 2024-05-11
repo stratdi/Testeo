@@ -27,8 +27,12 @@ public class TestService {
     return this.repository.findByUserId(userId).stream().map(t -> mapService.convert(t)).toList();
   }
 
-  public Optional<Test> get(@NonNull Long userId, @NonNull Long id) {
+  private Optional<Test> getEntity(@NonNull Long userId, @NonNull Long id) {
     return this.repository.findByUserIdAndId(userId, id);
+  }
+
+  public Optional<TestDto> get(@NonNull Long userId, @NonNull Long id) {
+    return this.getEntity(userId, id).map(t -> mapService.convert(t));
   }
 
   public List<TestDto> getWithQuestions(@NonNull Long userId) {
@@ -49,30 +53,44 @@ public class TestService {
         .map(t -> mapService.convertWithQuestionsAndAnswers(t)).toList();
   }
 
-  public Optional<Test> getWithQuestionsAndAnswers(@NonNull Long userId, @NonNull Long id) {
+  private Optional<Test> getEntityWithQuestionsAndAnswers(@NonNull Long userId, @NonNull Long id) {
     return this.repository.findWithQuestionsAndAnswersByUserIdAndId(userId, id);
   }
 
-  public void update(@NonNull Long userId, @NonNull Long id, @NonNull TestUpdateDto test) {
-    Optional<Test> testDb = this.get(userId, id);
+  public Long create(@NonNull Long userId, @NonNull TestUpdateDto test) {
+    Test testDb = new Test();
+    testDb.setUserId(userId);
+    this.mapService.update(testDb, test);
+    return this.repository.saveAndFlush(testDb).getId();
+  }
+
+  public boolean update(@NonNull Long userId, @NonNull Long id, @NonNull TestUpdateDto test) {
+    boolean updated = false;
+    Optional<Test> testDb = this.getEntity(userId, id);
     if (testDb.isPresent()) {
       this.mapService.update(testDb.get(), test);
       testDb.get().setLastTimeDone(LocalDateTime.now());
       this.repository.saveAndFlush(testDb.get());
+      updated = true;
     }
+
+    return updated;
   }
 
-  public void update(@NonNull Long userId, @NonNull Long id, @NonNull Long questionId,
+  public boolean update(@NonNull Long userId, @NonNull Long id, @NonNull Long questionId,
       @NonNull QuestionUpdateDto question) {
-    Optional<Test> testDb = this.getWithQuestionsAndAnswers(userId, id);
+    boolean updated = false;
+    Optional<Test> testDb = this.getEntityWithQuestionsAndAnswers(userId, id);
     if (testDb.isPresent()) {
       testDb.get().setLastTimeDone(LocalDateTime.now());
       Optional<Question> questionDb = testDb.get().getQuestion(questionId);
       if (questionDb.isPresent()) {
         this.mapService.update(questionDb.get(), question);
-
         this.repository.saveAndFlush(testDb.get());
+        updated = true;
       }
     }
+
+    return updated;
   }
 }

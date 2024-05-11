@@ -1,6 +1,7 @@
 package org.cruzl.testeo.security.jwt;
 
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.cruzl.testeo.security.services.UserDetailsImpl;
@@ -44,6 +45,7 @@ public class JwtUtils {
 
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
     String jwt = generateTokenFromUsername(userPrincipal.getUsername());
+    log.info("JWT Token generated: {}", jwt);
     ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(30 * 24 * 60 * 60).httpOnly(true)
         .build();
     return cookie;
@@ -64,6 +66,7 @@ public class JwtUtils {
   }
 
   public boolean validateJwtToken(String authToken) {
+    log.info("Token to eval: {}", authToken);
     try {
       Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
       return true;
@@ -87,5 +90,21 @@ public class JwtUtils {
         .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
         .signWith(key(), SignatureAlgorithm.HS256)
         .compact();
+  }
+
+  public String getJwtFromHeaders(HttpServletRequest request) {
+    String authorizationHeader = request.getHeader("Authorization");
+    if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+      String[] parts = authorizationHeader.substring(7).split(";");
+      return Arrays.stream(parts)
+          .map(String::trim)
+          .filter(part -> part.contains(this.jwtCookie + "="))
+          .map(part -> part.substring(this.jwtCookie.length() + 1))
+          .findFirst()
+          .orElse(null);
+
+    } else {
+      return null;
+    }
   }
 }

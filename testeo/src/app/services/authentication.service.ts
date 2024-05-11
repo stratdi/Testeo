@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable, ReplaySubject } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
+import { AppConstants } from '../app.constants';
 
 const TOKEN_KEY = 'my-token';
 
@@ -30,7 +31,7 @@ export class AuthenticationService {
   }
 
   login(credentials: { email: any; password: any }): Observable<any> {
-    return this.http.post(`http://localhost:8080/api/v1/auth/signin`, credentials).pipe(
+    return this.http.post(`${AppConstants.SIGNIN_URL}`, credentials).pipe(
       map((data: any) => data.token),
       switchMap((token) => {
         return from(Preferences.set({ key: TOKEN_KEY, value: token }));
@@ -44,5 +45,21 @@ export class AuthenticationService {
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
     return Preferences.remove({ key: TOKEN_KEY });
+  }
+
+  getAuthHeaderToken(): string {
+    return "Bearer " + this.token;
+  }
+
+  getAuthHeader() {
+    const headers = new HttpHeaders({
+      'Authorization': this.getAuthHeaderToken()
+    });
+
+    const options = {
+      headers: headers
+    };
+
+    return options;
   }
 }

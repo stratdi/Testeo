@@ -1,14 +1,37 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonSkeletonText } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { Test } from '../models/test.interface';
+import { TestService } from '../services/test.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonItem, IonLabel, IonSkeletonText],
 })
 export class Tab1Page {
-  constructor() {}
+  tests?: Test[];
+
+  constructor(private testService: TestService) { }
+
+  ionViewWillEnter() {
+    this.fetchTests();
+  }
+
+  fetchTests() {
+    this.testService.getTests().subscribe(
+      (data) => {
+        this.tests = data;
+        console.log(this.tests);
+        console.log("tate");
+      },
+      (error) => {
+        console.error('Error al recuperar datos:', error);
+      }
+    );
+  }
+
 }
