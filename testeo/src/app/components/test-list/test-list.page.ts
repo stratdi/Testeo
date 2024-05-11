@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonSkeletonText } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
-import { Test } from '../models/test.interface';
-import { TestService } from '../services/test.service';
+import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
+import { Test } from '../../models/test.interface';
+import { TestService } from '../../services/test.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
+  selector: 'test-list',
+  templateUrl: 'test-list.page.html',
+  styleUrls: ['test-list.page.scss'],
   standalone: true,
   imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonItem, IonLabel, IonSkeletonText],
 })
