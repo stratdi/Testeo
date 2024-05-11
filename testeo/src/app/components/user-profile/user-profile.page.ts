@@ -6,32 +6,12 @@ import { TestService } from '../../services/test.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'test-list',
-  templateUrl: 'test-list.page.html',
-  styleUrls: ['test-list.page.scss'],
+  selector: 'user-profile',
+  templateUrl: 'user-profile.page.html',
+  styleUrls: ['user-profile.page.scss'],
   standalone: true,
   imports: [CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonItem, IonLabel, IonSkeletonText],
 })
-export class TestListPage {
-  tests?: Test[];
-
+export class UserProfilePage {
   constructor(private testService: TestService) { }
-
-  ionViewWillEnter() {
-    this.fetchTests();
-  }
-
-  fetchTests() {
-    this.testService.getTests().subscribe(
-      (data) => {
-        this.tests = data;
-        console.log(this.tests);
-        console.log("tate");
-      },
-      (error) => {
-        console.error('Error al recuperar datos:', error);
-      }
-    );
-  }
-
 }

@@ -9,6 +9,6 @@ import { ExploreContainerComponent } from 'src/app/explore-container/explore-con
   standalone: true,
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
 })
-export class Tab3Page {
+export class TestFavoritesPage {
   constructor() { }
 }
