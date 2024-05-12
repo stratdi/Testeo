@@ -5,13 +5,15 @@ import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton,
 import { ActivatedRoute } from '@angular/router';
 import { TestService } from 'src/app/services/test.service';
 import { Test } from 'src/app/models/test.interface';
+import { DetailsComponent } from 'src/app/shared/components/details/details.component';
 
 @Component({
   selector: 'app-test-detail',
   templateUrl: './test-detail.page.html',
   styleUrls: ['./test-detail.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonLabel, IonItem, IonList, IonSkeletonText, IonButton, IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonNote]
+  imports: [CommonModule, DetailsComponent, IonContent, IonTitle, IonIcon, IonButton, IonButtons, IonBackButton, IonToolbar, IonHeader]
+  // imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonLabel, IonItem, IonList, IonSkeletonText, IonButton, IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonNote]
 })
 export class TestDetailPage implements OnInit {
   test?: Test;
