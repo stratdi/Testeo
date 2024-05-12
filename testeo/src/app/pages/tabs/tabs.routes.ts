@@ -15,7 +15,7 @@ export const routes: Routes = [
         loadComponent: () => import('../test-detail/test-detail.page').then(m => m.TestDetailPage)
       },
       {
-        path: 'tab2',
+        path: 'create',
         loadComponent: () => import('../test-create/test-create.page').then((m) => m.TestCreatePage),
       },
       {
