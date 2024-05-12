@@ -18,6 +18,10 @@ export class TestService {
     return this.http.get<Test[]>(this.apiUrl, this.authService.getAuthHeader());
   }
 
+  getFavoriteTests(): Observable<Test[]> {
+    return this.http.get<Test[]>(`${this.apiUrl}/favorites`, this.authService.getAuthHeader());
+  }
+
   getTestById(id: number): Observable<Test> {
     return this.http.get<Test>(`${this.apiUrl}/${id}?loadAnswers=true`, this.authService.getAuthHeader());
   }

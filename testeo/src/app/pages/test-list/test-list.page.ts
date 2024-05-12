@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, IonSkeletonText, IonItemSliding, IonItemOptions, IonItemOption, IonIcon } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../../explore-container/explore-container.component';
+import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ListComponent } from 'src/app/shared/components/list/list.component';
 import { Test } from '../../models/test.interface';
 import { TestService } from '../../services/test.service';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'test-list',
   templateUrl: 'test-list.page.html',
   styleUrls: ['test-list.page.scss'],
   standalone: true,
-  imports: [RouterModule, CommonModule, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonList, IonItem, IonLabel, IonSkeletonText, IonItemSliding, IonItemOptions, IonItemOption, IonIcon],
+  imports: [ListComponent, IonContent, IonTitle, IonToolbar, IonHeader],
 })
 export class TestListPage {
   tests?: Test[];
@@ -30,7 +28,7 @@ export class TestListPage {
         console.log("tate");
       },
       (error) => {
-        console.error('Error al recuperar datos:', error);
+        console.error('Error al recuperar les dades:', error);
       }
     );
   }
