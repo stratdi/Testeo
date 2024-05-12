@@ -24,6 +24,9 @@ public interface TestRepository extends JpaRepository<Test, Long> {
 
   Optional<Test> findByUserIdAndId(@NonNull Long userId, @NonNull Long id);
 
+  @EntityGraph(attributePaths = { "questions" })
+  Optional<Test> findWithQuestionsByUserIdAndId(@NonNull Long userId, @NonNull Long id);
+
   Optional<Test> findWithQuestionsAndAnswersByUserIdAndId(@NonNull Long userId, @NonNull Long id);
 
 }

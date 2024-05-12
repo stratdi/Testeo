@@ -15,7 +15,7 @@ export const autoLoginGuard: CanMatchFn = (route, segments) => {
       if (isAuthenticated) {
         // Directly open inside area
         console.log("YA HICE LOGIN LOCO");
-        router.navigateByUrl('/tabs', { replaceUrl: true });
+        router.navigateByUrl('/tests', { replaceUrl: true });
         return true;
       } else {
         console.log("WHO YOU ARE MAMAHUEVO");

@@ -40,6 +40,10 @@ public class TestService {
         .toList();
   }
 
+  public Optional<TestDto> getWithQuestions(@NonNull Long userId, @NonNull Long id) {
+    return this.repository.findWithQuestionsByUserIdAndId(userId, id).map(t -> mapService.convertWithQuestions(t));
+  }
+
   public List<TestDto> getFavorites(@NonNull Long userId) {
     return this.repository.findByUserIdAndFavoriteTrue(userId).stream().map(t -> mapService.convert(t)).toList();
   }
@@ -51,6 +55,10 @@ public class TestService {
   public List<TestDto> getWithQuestionsAndAnswers(@NonNull Long userId) {
     return this.repository.findWithQuestionsAndAnswersByUserId(userId).stream()
         .map(t -> mapService.convertWithQuestionsAndAnswers(t)).toList();
+  }
+
+  public Optional<TestDto> getWithQuestionsAndAnswers(@NonNull Long userId, @NonNull Long id) {
+    return this.getEntityWithQuestionsAndAnswers(userId, id).map(t -> mapService.convertWithQuestionsAndAnswers(t));
   }
 
   private Optional<Test> getEntityWithQuestionsAndAnswers(@NonNull Long userId, @NonNull Long id) {
@@ -89,6 +97,18 @@ public class TestService {
         this.repository.saveAndFlush(testDb.get());
         updated = true;
       }
+    }
+
+    return updated;
+  }
+
+  public boolean setFavorite(@NonNull Long userId, @NonNull Long id, boolean favorite) {
+    boolean updated = false;
+    Optional<Test> testDb = this.getEntity(userId, id);
+    if (testDb.isPresent()) {
+      testDb.get().setFavorite(favorite);
+      this.repository.saveAndFlush(testDb.get());
+      updated = true;
     }
 
     return updated;

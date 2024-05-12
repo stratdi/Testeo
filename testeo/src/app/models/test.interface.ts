@@ -1,3 +1,5 @@
+import { Question } from "./question.interface";
+
 export interface Test {
   id: number;
   userId: number;
@@ -7,4 +9,5 @@ export interface Test {
   errorScore: string;
   lastTimeDone: string;
   favorite: boolean;
+  questions: Question[];
 }

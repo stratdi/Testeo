@@ -8,6 +8,7 @@ import org.cruzl.testeo.core.services.TestService;
 import org.cruzl.testeo.rest.dtos.QuestionAnsweredDto;
 import org.cruzl.testeo.rest.dtos.QuestionUpdateDto;
 import org.cruzl.testeo.rest.dtos.TestDto;
+import org.cruzl.testeo.rest.dtos.TestFavoriteDto;
 import org.cruzl.testeo.rest.dtos.TestUpdateDto;
 import org.cruzl.testeo.security.services.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
@@ -80,9 +81,24 @@ public class TestRestController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<TestDto> get(@PathVariable Long id) {
-    Optional<TestDto> test = this.testService.get(getUserId(), id);
+  public ResponseEntity<TestDto> get(@PathVariable Long id, @RequestParam(required = false) boolean loadQuestions,
+      @RequestParam(required = false) boolean loadAnswers) {
+    Optional<TestDto> test = Optional.empty();
+    if (loadAnswers) {
+      test = this.testService.getWithQuestionsAndAnswers(getUserId(), id);
+    } else if (loadQuestions) {
+      test = this.testService.getWithQuestions(getUserId(), id);
+    } else {
+      test = this.testService.get(this.getUserId(), id);
+    }
+
     return test.isPresent() ? ResponseEntity.ok(test.get()) : ResponseEntity.notFound().build();
+  }
+
+  @PutMapping("/{id}/favorite")
+  public ResponseEntity<Void> setFavorite(@PathVariable Long id, @RequestBody TestFavoriteDto favorite) {
+    boolean updated = this.testService.setFavorite(getUserId(), id, favorite.isFavorite());
+    return updated ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
   }
 
   @PutMapping("/{id}/take")

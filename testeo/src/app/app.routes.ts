@@ -20,7 +20,11 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./components/tabs/tabs.routes').then((m) => m.routes),
+    loadChildren: () => import('./pages/tabs/tabs.routes').then((m) => m.routes),
     canMatch: [authGuard]
   },
+  // {
+  //   path: 'tests/:id',
+  //   loadComponent: () => import('./pages/test-detail/test-detail.page').then(m => m.TestDetailPage)
+  // },
 ];
