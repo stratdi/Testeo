@@ -4,6 +4,7 @@ import { map, tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable, ReplaySubject } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { AppConstants } from '../app.constants';
+import { User } from '../models/user.interface';
 
 const TOKEN_KEY = 'my-token';
 
@@ -45,6 +46,10 @@ export class AuthenticationService {
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
     return Preferences.remove({ key: TOKEN_KEY });
+  }
+
+  getUser(): Observable<User> {
+    return this.http.get<User>(`${AppConstants.USER_URL}`, this.getAuthHeader());
   }
 
   getAuthHeaderToken(): string {

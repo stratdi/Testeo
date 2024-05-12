@@ -4,12 +4,14 @@ import org.cruzl.testeo.rest.dtos.BasicResponseDto;
 import org.cruzl.testeo.rest.dtos.SigninDto;
 import org.cruzl.testeo.rest.dtos.SignupDto;
 import org.cruzl.testeo.rest.dtos.TokenDto;
+import org.cruzl.testeo.rest.dtos.UserDto;
 import org.cruzl.testeo.rest.services.AuthRestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,12 @@ public class AuthRestController {
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
     return this.service.logoutUser();
+  }
+
+  @GetMapping("/user")
+  public ResponseEntity<UserDto> getUser() {
+    return this.service.getUser();
+
   }
 
 }

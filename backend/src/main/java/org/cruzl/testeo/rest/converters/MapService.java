@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 import org.cruzl.testeo.core.model.Answer;
 import org.cruzl.testeo.core.model.Question;
 import org.cruzl.testeo.core.model.Test;
+import org.cruzl.testeo.core.model.User;
 import org.cruzl.testeo.rest.dtos.AnswerUpdateDto;
 import org.cruzl.testeo.rest.dtos.QuestionDto;
 import org.cruzl.testeo.rest.dtos.QuestionUpdateDto;
 import org.cruzl.testeo.rest.dtos.TestDto;
 import org.cruzl.testeo.rest.dtos.TestUpdateDto;
+import org.cruzl.testeo.rest.dtos.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -46,6 +48,8 @@ public interface MapService {
 
 	@Mapping(target = "question", ignore = true)
 	public Answer convert(@NonNull AnswerUpdateDto answer);
+
+	public UserDto convert(@NonNull User user);
 
 	public default List<Answer> update(Question question, @NonNull List<AnswerUpdateDto> answers) {
 		question.getAnswers().clear();

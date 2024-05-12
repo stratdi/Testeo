@@ -1,18 +1,20 @@
 package org.cruzl.testeo.rest.services;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.cruzl.testeo.core.model.User;
 import org.cruzl.testeo.core.services.UserService;
+import org.cruzl.testeo.rest.converters.MapService;
 import org.cruzl.testeo.rest.dtos.BasicResponseDto;
 import org.cruzl.testeo.rest.dtos.SignupDto;
 import org.cruzl.testeo.rest.dtos.TokenDto;
+import org.cruzl.testeo.rest.dtos.UserDto;
 import org.cruzl.testeo.security.jwt.JwtUtils;
 import org.cruzl.testeo.security.services.UserDetailsImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,8 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthRestService {
 
-  private final AuthenticationManager authenticationManager;
   private final UserService userService;
+  private final MapService mapService;
   private final PasswordEncoder encoder;
   private final JwtUtils jwtUtils;
 
@@ -65,13 +67,8 @@ public class AuthRestService {
 
     ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
-    // List<String> roles = userDetails.getAuthorities().stream()
-    // .map(item -> item.getAuthority())
-    // .collect(Collectors.toList());
-
     log.info("Token: {}", jwtCookie.toString());
 
-    // Pentura hem de retornar la Cookie i desar-la en Angular
     return ResponseEntity
         .ok()
         .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
@@ -82,5 +79,18 @@ public class AuthRestService {
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
         .body(new BasicResponseDto("You've been signed out!"));
+  }
+
+  public ResponseEntity<UserDto> getUser() {
+    Optional<UserDto> user = this.userService.get(this.getUsername()).map(u -> this.mapService.convert(u));
+    return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.internalServerError().build();
+  }
+
+  private String getUsername() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null && authentication.getPrincipal() instanceof UserDetailsImpl user) {
+      return user.getUsername();
+    }
+    return null;
   }
 }

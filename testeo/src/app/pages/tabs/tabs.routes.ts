@@ -19,8 +19,12 @@ export const routes: Routes = [
         loadComponent: () => import('../test-create/test-create.page').then((m) => m.TestCreatePage),
       },
       {
-        path: 'tab3',
+        path: 'favorites',
         loadComponent: () => import('../test-favorites/test-favorites.page').then((m) => m.TestFavoritesPage),
+      },
+      {
+        path: 'favorites/:id/details',
+        loadComponent: () => import('../test-detail/test-detail.page').then(m => m.TestDetailPage)
       },
       {
         path: 'tab4',
