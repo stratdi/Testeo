@@ -12,7 +12,6 @@ const TOKEN_KEY = 'my-token';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  // Init with null to filter out the first value in a guard!
   isAuthenticated: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   token = '';
 
@@ -35,9 +34,11 @@ export class AuthenticationService {
     return this.http.post(`${AppConstants.SIGNIN_URL}`, credentials).pipe(
       map((data: any) => data.token),
       switchMap((token) => {
+        console.log("PONGO EL TOKEN", this.token);
         return from(Preferences.set({ key: TOKEN_KEY, value: token }));
       }),
       tap((_) => {
+        this.loadToken();
         this.isAuthenticated.next(true);
       })
     );
@@ -60,6 +61,8 @@ export class AuthenticationService {
     const headers = new HttpHeaders({
       'Authorization': this.getAuthHeaderToken()
     });
+
+    console.log("HEADER", headers);
 
     const options = {
       headers: headers

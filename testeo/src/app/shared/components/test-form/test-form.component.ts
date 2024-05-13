@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { IonItem, IonInput, IonTextarea, IonList, IonLabel, IonButton } from '@ionic/angular/standalone';
 import { TestForm } from 'src/app/models/test-form.interface';
 import { ToastController } from '@ionic/angular';
+import { TestService } from 'src/app/services/test.service';
 
 @Component({
   selector: 'app-test-form',
@@ -18,7 +19,7 @@ export class TestFormComponent implements OnInit {
 
   testForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private toastController: ToastController) {
+  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private testService: TestService) {
     this.test = {
       title: '',
       description: ''
@@ -41,26 +42,40 @@ export class TestFormComponent implements OnInit {
     console.log("Invalid form?", this.testForm.invalid);
 
     if (this.testForm.invalid) {
+      this.testForm.markAllAsTouched();
+      await this.presentToast("El formulari té errors.", "bottom", false);
       return;
     }
 
     this.test = this.testForm.value;
 
+
     if (action === "simple") {
       console.log(action, this.test);
-      await this.presentToast("bottom");
+      this.testService.saveTest(this.test).subscribe(
+        (response) => {
+          this.testForm.reset();
+          this.presentToast("Test desat satisfactòriament.", "bottom", true);
+        },
+        (error) => {
+          console.error("Error desant el test:", error);
+          this.presentToast("Error desant el test...", "bottom", false);
+        }
+      );
     }
+
     if (action === "questions") {
       console.log(action, this.test);
     }
 
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
+  async presentToast(text: string, position: 'top' | 'middle' | 'bottom', success: boolean) {
     const toast = await this.toastController.create({
-      message: 'Hello World!',
+      message: text,
       duration: 5000,
       position: position,
+      color: success ? 'success' : 'danger',
     });
 
     await toast.present();

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Test } from '../models/test.interface'
 import { AuthenticationService } from './authentication.service';
+import { AppConstants } from '../app.constants';
+import { TestForm } from '../models/test-form.interface';
 const TOKEN_KEY = 'my-token';
 
 @Injectable({
@@ -10,24 +12,28 @@ const TOKEN_KEY = 'my-token';
 })
 export class TestService {
 
-  private apiUrl = 'http://192.168.1.68:8080/api/v1/tests';
-
   constructor(private http: HttpClient, private authService: AuthenticationService) { }
 
   getTests(): Observable<Test[]> {
-    return this.http.get<Test[]>(this.apiUrl, this.authService.getAuthHeader());
+    return this.http.get<Test[]>(AppConstants.TESTS_URL, this.authService.getAuthHeader());
   }
 
   getFavoriteTests(): Observable<Test[]> {
-    return this.http.get<Test[]>(`${this.apiUrl}/favorites`, this.authService.getAuthHeader());
+    return this.http.get<Test[]>(`${AppConstants.TESTS_URL}/favorites`, this.authService.getAuthHeader());
   }
 
   getTestById(id: number): Observable<Test> {
-    return this.http.get<Test>(`${this.apiUrl}/${id}?loadAnswers=true`, this.authService.getAuthHeader());
+    return this.http.get<Test>(`${AppConstants.TESTS_URL}/${id}?loadAnswers=true`, this.authService.getAuthHeader());
   }
 
   setFavorite(id: number, favorite: boolean): Observable<Test> {
     const body = { favorite };
-    return this.http.put<Test>(`${this.apiUrl}/${id}/favorite`, body, this.authService.getAuthHeader());
+    return this.http.put<Test>(`${AppConstants.TESTS_URL}/${id}/favorite`, body, this.authService.getAuthHeader());
   }
+
+  saveTest(test: TestForm): Observable<any> {
+    return this.http.post<TestForm>(`${AppConstants.TESTS_URL}`, test, this.authService.getAuthHeader());
+  }
+
+
 }
