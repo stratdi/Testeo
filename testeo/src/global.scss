@@ -38,18 +38,6 @@ ion-toast {
   top: -45px !important;
 }
 
-.toast-wrapper {
-  background-color: var(--green-color) !important;
-}
-
-:host(.toolbar-title-large) .toolbar-background {
-  background-color: none !important;
-}
-
-.toolbar-background {
-  background-color: BLACK;
-}
-
 .ios ion-toolbar {
   --background: transparent;
 }

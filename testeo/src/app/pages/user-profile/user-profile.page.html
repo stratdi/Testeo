@@ -1,13 +1,17 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Perfil
+      El meu perfil
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <!-- <h2 class="ion-padding-horizontal">Dades generals</h2> -->
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">El meu perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
   <ion-list [inset]="true" *ngIf="user">
     <ion-item>

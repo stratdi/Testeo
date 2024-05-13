@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,6 +79,12 @@ public class TestRestController {
   public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TestUpdateDto test) {
     boolean updated = this.testService.update(getUserId(), id, test);
     return updated ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    boolean deleted = this.testService.delete(getUserId(), id);
+    return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
   }
 
   @GetMapping("/{id}")

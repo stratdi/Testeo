@@ -13,13 +13,9 @@ export const autoLoginGuard: CanMatchFn = (route, segments) => {
     map((isAuthenticated) => {
       console.log('Found previous token, automatic login', isAuthenticated);
       if (isAuthenticated) {
-        // Directly open inside area
-        console.log("YA HICE LOGIN LOCO");
         router.navigateByUrl('/tests', { replaceUrl: true });
         return true;
       } else {
-        console.log("WHO YOU ARE MAMAHUEVO");
-        // Simply allow access to the login
         return true;
       }
     })

@@ -31,6 +31,10 @@ export class TestService {
     return this.http.put<Test>(`${AppConstants.TESTS_URL}/${id}/favorite`, body, this.authService.getAuthHeader());
   }
 
+  deleteTest(id: number): Observable<void> {
+    return this.http.delete<void>(`${AppConstants.TESTS_URL}/${id}`, this.authService.getAuthHeader());
+  }
+
   saveTest(test: TestForm, testId?: number): Observable<any> {
     console.log("TEEST", test);
     if (testId) {

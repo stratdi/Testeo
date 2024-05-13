@@ -112,4 +112,15 @@ public class TestService {
 
     return updated;
   }
+
+  public boolean delete(Long userId, Long id) {
+    boolean deleted = false;
+    Optional<Test> testDb = this.getEntity(userId, id);
+    if (testDb.isPresent()) {
+      this.repository.delete(testDb.get());
+      deleted = true;
+    }
+
+    return deleted;
+  }
 }

@@ -1,11 +1,12 @@
-import { CommonModule, Location, LocationStrategy } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonItem, IonInput, IonTextarea, IonList, IonLabel, IonButton } from '@ionic/angular/standalone';
-import { TestForm } from 'src/app/models/test-form.interface';
-import { ToastController, NavController } from '@ionic/angular';
-import { TestService } from 'src/app/services/test.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { IonButton, IonInput, IonItem, IonLabel, IonList, IonTextarea } from '@ionic/angular/standalone';
+import { TestForm } from 'src/app/models/test-form.interface';
+import { TestService } from 'src/app/services/test.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 
 @Component({
@@ -21,10 +22,11 @@ export class TestFormComponent implements OnInit {
 
   testForm: FormGroup;
   testId?: number;
+  testFavorite: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private toastController: ToastController,
+    private toastService: ToastService,
     private testService: TestService,
     private route: ActivatedRoute,
     private location: Location) {
@@ -48,7 +50,6 @@ export class TestFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("TEST ID", this.testId)
     if (this.testId != null) {
       this.prepareUpdate();
     }
@@ -58,11 +59,12 @@ export class TestFormComponent implements OnInit {
     if (this.testId) {
       this.testService.getTestById(this.testId).subscribe(
         (test) => {
+          this.testFavorite = test.favorite;
           this.testForm.patchValue(test);
         },
         (error) => {
           console.error("Error carregant les dades:", error);
-          this.presentToast("Error carregant les dades...", "bottom", false);
+          this.toastService.create("Error carregant les dades...", "bottom", false);
         }
       );
     }
@@ -73,12 +75,12 @@ export class TestFormComponent implements OnInit {
 
     if (this.testForm.invalid) {
       this.testForm.markAllAsTouched();
-      await this.presentToast("El formulari té errors.", "bottom", false);
+      await this.toastService.create("El formulari té errors.", "bottom", false);
       return;
     }
 
     this.test = this.testForm.value;
-
+    this.test.favorite = this.testFavorite;
 
     if (action === "simple") {
       this.testService.saveTest(this.test, this.testId).subscribe(
@@ -87,15 +89,16 @@ export class TestFormComponent implements OnInit {
             if (this.location) {
               this.location.back();
             }
-            this.presentToast("Test desat satisfactòriament.", "bottom", true);
+            this.toastService.create("Test desat satisfactòriament.", "bottom", true);
           } else {
             this.testForm.reset();
-            this.presentToast("Test desat satisfactòriament.", "bottom", true);
+            this.toastService.create("Test desat satisfactòriament.", "bottom", true);
           }
         },
         (error) => {
           console.error("Error desant el test:", error);
-          this.presentToast("Error desant el test...", "bottom", false);
+
+          this.toastService.create("Error desant el test...", "bottom", false);
         }
       );
     }
@@ -105,16 +108,4 @@ export class TestFormComponent implements OnInit {
     }
 
   }
-
-  async presentToast(text: string, position: 'top' | 'middle' | 'bottom', success: boolean) {
-    const toast = await this.toastController.create({
-      message: text,
-      duration: 5000,
-      position: position,
-      color: success ? 'success' : 'danger',
-    });
-
-    await toast.present();
-  }
-
 }

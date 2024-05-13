@@ -3,4 +3,5 @@ export interface TestForm {
   description: string;
   successScore?: number;
   errorScore?: number;
+  favorite?: boolean;
 }

@@ -30,9 +30,10 @@
 
   <!-- Action buttons for the general info -->
   <ion-button expand="block" class="ion-padding-horizontal" [routerLink]="['/tests/list/'+test.id+'/edit']" button
-    detail="true">Edita
-    les dades generals</ion-button>
-  <ion-button expand="block" class="ion-padding-horizontal" fill="clear">Elimina el test</ion-button>
+    detail="true">Edita les dades generals</ion-button>
+  <ion-button id="test-delete" expand="block" class="ion-padding-horizontal" fill="clear">Elimina el test</ion-button>
+  <ion-alert trigger="test-delete" header="Estau segurs?"
+    message="Estau a punt d'eliminar el test. Aquesta acció no es pot desfer." [buttons]="deleteButtons"></ion-alert>
 
   <!-- General info about the questions -->
   <h2 class="ion-padding-horizontal">Preguntes</h2>
@@ -75,4 +76,5 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
 </ng-template>
