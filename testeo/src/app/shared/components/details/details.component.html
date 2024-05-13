@@ -29,7 +29,9 @@
   </ion-list>
 
   <!-- Action buttons for the general info -->
-  <ion-button expand="block" class="ion-padding-horizontal">Edita les dades generals</ion-button>
+  <ion-button expand="block" class="ion-padding-horizontal" [routerLink]="['/tests/list/'+test.id+'/edit']" button
+    detail="true">Edita
+    les dades generals</ion-button>
   <ion-button expand="block" class="ion-padding-horizontal" fill="clear">Elimina el test</ion-button>
 
   <!-- General info about the questions -->

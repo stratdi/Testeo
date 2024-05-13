@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton, IonLabel, IonItem, IonList, IonSkeletonText, IonButton, IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonNote } from '@ionic/angular/standalone';
@@ -22,6 +22,14 @@ export class TestDetailPage implements OnInit {
     private testService: TestService) { }
 
   ngOnInit(): void {
+    this.loadTest();
+  }
+
+  /**
+   * Refrescam el detall quan l'usuari fa 'back' de l'edició.
+   */
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
     this.loadTest();
   }
 

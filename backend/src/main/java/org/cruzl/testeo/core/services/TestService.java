@@ -77,7 +77,6 @@ public class TestService {
     Optional<Test> testDb = this.getEntity(userId, id);
     if (testDb.isPresent()) {
       this.mapService.update(testDb.get(), test);
-      testDb.get().setLastTimeDone(LocalDateTime.now());
       this.repository.saveAndFlush(testDb.get());
       updated = true;
     }

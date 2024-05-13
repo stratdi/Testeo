@@ -50,8 +50,6 @@ ion-toast {
   background-color: BLACK;
 }
 
-ion-toolbar {
-  --background-color: transparent;
-  --ion-color-base: transparent !important;
-  --opacity: 0;
+.ios ion-toolbar {
+  --background: transparent;
 }

@@ -31,8 +31,13 @@ export class TestService {
     return this.http.put<Test>(`${AppConstants.TESTS_URL}/${id}/favorite`, body, this.authService.getAuthHeader());
   }
 
-  saveTest(test: TestForm): Observable<any> {
-    return this.http.post<TestForm>(`${AppConstants.TESTS_URL}`, test, this.authService.getAuthHeader());
+  saveTest(test: TestForm, testId?: number): Observable<any> {
+    console.log("TEEST", test);
+    if (testId) {
+      return this.http.put<TestForm>(`${AppConstants.TESTS_URL}/${testId}`, test, this.authService.getAuthHeader());
+    } else {
+      return this.http.post<TestForm>(`${AppConstants.TESTS_URL}`, test, this.authService.getAuthHeader());
+    }
   }
 
 

@@ -1,10 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location, LocationStrategy } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonItem, IonInput, IonTextarea, IonList, IonLabel, IonButton } from '@ionic/angular/standalone';
 import { TestForm } from 'src/app/models/test-form.interface';
-import { ToastController } from '@ionic/angular';
+import { ToastController, NavController } from '@ionic/angular';
 import { TestService } from 'src/app/services/test.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-test-form',
@@ -18,24 +20,52 @@ export class TestFormComponent implements OnInit {
   @Input() test: TestForm;
 
   testForm: FormGroup;
+  testId?: number;
 
-  constructor(private formBuilder: FormBuilder, private toastController: ToastController, private testService: TestService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private toastController: ToastController,
+    private testService: TestService,
+    private route: ActivatedRoute,
+    private location: Location) {
+
     this.test = {
       title: '',
       description: ''
     };
 
+    const testIdString = this.route.snapshot.paramMap.get('id');
+    if (testIdString) {
+      this.testId = parseInt(testIdString);
+    }
+
     this.testForm = this.formBuilder.group({
       title: [this.test ? this.test.title : '', [Validators.required, Validators.maxLength(50)]],
       description: [this.test ? this.test.description : '', [Validators.required, Validators.maxLength(255)]],
-      successScore: [this.test ? this.test.successScore : null],
-      errorScore: [this.test ? this.test.errorScore : null]
+      successScore: [this.test ? this.test.successScore : null, [Validators.max(999.99), Validators.min(0)]],
+      errorScore: [this.test ? this.test.errorScore : null, [Validators.max(0), Validators.min(-999.99)]]
     });
   }
 
-  async ngOnInit(): Promise<void> {
-    let errorResponse: any;
-    // update
+  ngOnInit(): void {
+    console.log("TEST ID", this.testId)
+    if (this.testId != null) {
+      this.prepareUpdate();
+    }
+  }
+
+  private async prepareUpdate() {
+    if (this.testId) {
+      this.testService.getTestById(this.testId).subscribe(
+        (test) => {
+          this.testForm.patchValue(test);
+        },
+        (error) => {
+          console.error("Error carregant les dades:", error);
+          this.presentToast("Error carregant les dades...", "bottom", false);
+        }
+      );
+    }
   }
 
   async onSubmit(action: string) {
@@ -51,11 +81,17 @@ export class TestFormComponent implements OnInit {
 
 
     if (action === "simple") {
-      console.log(action, this.test);
-      this.testService.saveTest(this.test).subscribe(
+      this.testService.saveTest(this.test, this.testId).subscribe(
         (response) => {
-          this.testForm.reset();
-          this.presentToast("Test desat satisfactòriament.", "bottom", true);
+          if (this.testId) {
+            if (this.location) {
+              this.location.back();
+            }
+            this.presentToast("Test desat satisfactòriament.", "bottom", true);
+          } else {
+            this.testForm.reset();
+            this.presentToast("Test desat satisfactòriament.", "bottom", true);
+          }
         },
         (error) => {
           console.error("Error desant el test:", error);

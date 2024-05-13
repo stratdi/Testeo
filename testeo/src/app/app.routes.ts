@@ -24,12 +24,8 @@ export const routes: Routes = [
     canMatch: [authGuard]
   },
   {
-    path: 'test-form',
-    loadComponent: () => import('./pages/test-form/test-form.page').then( m => m.TestFormPage)
-  },
-  {
     path: 'question-form',
-    loadComponent: () => import('./pages/question-form/question-form.page').then( m => m.QuestionFormPage)
+    loadComponent: () => import('./pages/question-form/question-form.page').then(m => m.QuestionFormPage)
   },
   // {
   //   path: 'tests/:id',
