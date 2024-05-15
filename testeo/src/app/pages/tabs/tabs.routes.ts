@@ -19,8 +19,20 @@ export const routes: Routes = [
         loadComponent: () => import('../test-edit/test-edit.page').then(m => m.TestFormPage)
       },
       {
+        path: 'list/:id/questions',
+        loadComponent: () => import('../question-create/question-create.page').then(m => m.QuestionFormPage)
+      },
+      {
+        path: 'list/:id/questions/:questionId/edit',
+        loadComponent: () => import('../question-create/question-create.page').then(m => m.QuestionFormPage)
+      },
+      {
         path: 'create',
         loadComponent: () => import('../test-create/test-create.page').then((m) => m.TestCreatePage),
+      },
+      {
+        path: 'create/:id/questions',
+        loadComponent: () => import('../question-create/question-create.page').then(m => m.QuestionFormPage)
       },
       {
         path: 'favorites',

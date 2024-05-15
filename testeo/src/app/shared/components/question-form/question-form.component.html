@@ -1,0 +1,39 @@
+<form *ngIf="questionForm" [formGroup]="questionForm">
+
+  <h2 class="ion-padding-horizontal">Dades de la pregunta</h2>
+  <ion-list [inset]="true" lines="none">
+    <ion-item>
+      <ion-textarea label="Títol" labelPlacement="floating" placeholder="Introdueix un títol de pregunta"
+        errorText="Camp obligatori" [autoGrow]=" true" [counter]="true" maxlength="1000"
+        formControlName="statement"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-textarea label="Feedback" labelPlacement="floating" placeholder="Introdueix el feedback de resposta"
+        errorText="Camp obligatori" [autoGrow]=" true" [counter]="true" maxlength="1000"
+        formControlName="feedback"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <h2 class="ion-padding-horizontal">Respostes</h2>
+
+  <ion-radio-group formControlName="correctAnswer">
+    <ion-list [inset]="true" formArrayName="answers" lines="none">
+      <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i" class="ion-margin-bottom">
+        <ion-radio slot="start" [value]="i" name="tate"></ion-radio>
+        <ion-textarea placeholder="Introdueix el text de la resposta" errorText="Camp obligatori" [autoGrow]=" true"
+          [counter]="true" maxlength="500" formControlName="text"></ion-textarea>
+        <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()">
+          <ion-icon slot="icon-only" ios="logo-apple" md="trash-sharp"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-radio-group>
+
+  <ion-button expand="block" class="ion-margin-horizontal" (click)="addAnswer()">Afegeix
+    opció</ion-button>
+
+  <ion-button expand="block" class="ion-margin-horizontal ion-margin-top" (click)="onSubmit('addQuestion')">Desa i
+    afegeix
+    pregunta</ion-button>
+  <ion-button expand="block" class="ion-margin-horizontal" (click)="onSubmit('end')">Desa i acaba</ion-button>
+</form>

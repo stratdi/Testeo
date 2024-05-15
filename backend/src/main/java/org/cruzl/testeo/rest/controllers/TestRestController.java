@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.cruzl.testeo.core.model.Test;
 import org.cruzl.testeo.core.services.TestService;
 import org.cruzl.testeo.rest.dtos.QuestionAnsweredDto;
+import org.cruzl.testeo.rest.dtos.QuestionDto;
 import org.cruzl.testeo.rest.dtos.QuestionUpdateDto;
 import org.cruzl.testeo.rest.dtos.TestDto;
 import org.cruzl.testeo.rest.dtos.TestFavoriteDto;
@@ -26,11 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/tests")
 @RequiredArgsConstructor
@@ -44,6 +46,12 @@ public class TestRestController {
       return user.getId();
     }
     return null;
+  }
+
+  @GetMapping("/{id}/questions/{questionId}")
+  public ResponseEntity<QuestionDto> get(@NonNull Long id, @NonNull Long questionId) {
+    Optional<QuestionDto> question = this.testService.getQuestion(getUserId(), id, questionId);
+    return question.isPresent() ? ResponseEntity.ok(question.get()) : ResponseEntity.notFound().build();
   }
 
   @GetMapping
@@ -63,10 +71,11 @@ public class TestRestController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> create(@RequestBody TestUpdateDto test) {
+  public ResponseEntity<Long> create(@RequestBody TestUpdateDto test) {
     Long id = this.testService.create(getUserId(), test);
     return ResponseEntity
-        .created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri()).build();
+        .created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri())
+        .body(id);
   }
 
   @GetMapping("/favorites")
@@ -119,5 +128,15 @@ public class TestRestController {
       @RequestBody QuestionUpdateDto question) {
     boolean updated = this.testService.update(getUserId(), id, questionId, question);
     return updated ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+  }
+
+  @PostMapping("/{id}/questions")
+  public ResponseEntity<Void> create(@PathVariable Long id,
+      @RequestBody QuestionUpdateDto question) {
+    Long questionId = this.testService.createQuestion(getUserId(), id, question);
+    return ResponseEntity
+        .created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/questions/{questionId}")
+            .buildAndExpand(id, questionId).toUri())
+        .build();
   }
 }

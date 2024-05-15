@@ -25,7 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'question-form',
-    loadComponent: () => import('./pages/question-form/question-form.page').then(m => m.QuestionFormPage)
+    loadComponent: () => import('./pages/question-create/question-create.page').then(m => m.QuestionFormPage)
   },
   // {
   //   path: 'tests/:id',

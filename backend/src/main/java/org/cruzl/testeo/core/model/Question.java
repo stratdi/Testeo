@@ -28,7 +28,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
 public class Question {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)

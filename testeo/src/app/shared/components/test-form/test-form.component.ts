@@ -1,7 +1,7 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { IonButton, IonInput, IonItem, IonLabel, IonList, IonTextarea } from '@ionic/angular/standalone';
 import { TestForm } from 'src/app/models/test-form.interface';
@@ -29,6 +29,7 @@ export class TestFormComponent implements OnInit {
     private toastService: ToastService,
     private testService: TestService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location) {
 
     this.test = {
@@ -82,30 +83,29 @@ export class TestFormComponent implements OnInit {
     this.test = this.testForm.value;
     this.test.favorite = this.testFavorite;
 
-    if (action === "simple") {
-      this.testService.saveTest(this.test, this.testId).subscribe(
-        (response) => {
-          if (this.testId) {
-            if (this.location) {
-              this.location.back();
-            }
-            this.toastService.create("Test desat satisfactòriament.", "bottom", true);
-          } else {
-            this.testForm.reset();
-            this.toastService.create("Test desat satisfactòriament.", "bottom", true);
+    this.testService.saveTest(this.test, this.testId).subscribe(
+      (response) => {
+        // Edició
+        if (this.testId) {
+          if (action === "end" && this.location) {
+            this.location.back();
+          } else if (action === "addQuestion") {
+            this.router.navigateByUrl(`tests/list/${this.testId}/questions`, { replaceUrl: true });
           }
-        },
-        (error) => {
-          console.error("Error desant el test:", error);
-
-          this.toastService.create("Error desant el test...", "bottom", false);
+        } //Creació
+        else {
+          if (action === "addQuestion") {
+            this.router.navigateByUrl(`tests/create/${response}/questions`, { replaceUrl: false });
+          }
+          this.testForm.reset();
         }
-      );
-    }
 
-    if (action === "questions") {
-      console.log(action, this.test);
-    }
-
+        this.toastService.create("Test desat satisfactòriament.", "bottom", true);
+      },
+      (error) => {
+        console.error("Error desant el test:", error);
+        this.toastService.create("Error desant el test...", "bottom", false);
+      }
+    );
   }
 }

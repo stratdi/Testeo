@@ -57,4 +57,9 @@ public class Test {
   public Optional<Question> getQuestion(@NonNull Long questionId) {
     return questions.stream().filter(q -> q.getId().equals(questionId)).findFirst();
   }
+
+  public boolean addQuestion(@NonNull Question question) {
+    question.setTest(this);
+    return this.questions.add(question);
+  }
 }

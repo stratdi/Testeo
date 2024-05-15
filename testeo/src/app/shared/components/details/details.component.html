@@ -11,13 +11,13 @@
     <ion-item>
       <ion-label>
         <h3>Puntuació per encert</h3>
-        <p>{{ test.successScore }}</p>
+        <p>{{ test.successScore ? test.successScore : 'Sense definir'}}</p>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-label>
         <h3>Puntuació per error</h3>
-        <p>{{ test.errorScore }}</p>
+        <p>{{ test.errorScore ? test.errorScore : 'Sense definir' }}</p>
       </ion-label>
     </ion-item>
     <ion-item>
@@ -53,8 +53,8 @@
   </ion-note>
   <!-- Action buttons for the general info -->
   <ion-button expand="block"
-    [class]="test.questions != null && test.questions.length > 0 ? 'ion-padding-horizontal' : 'ion-padding'">Afegeix una
-    pregunta
+    [class]="test.questions != null && test.questions.length > 0 ? 'ion-padding-horizontal' : 'ion-padding'"
+    [routerLink]="['/tests/list/'+test.id+'/questions']">Afegeix una pregunta
   </ion-button>
 </ng-container>
 

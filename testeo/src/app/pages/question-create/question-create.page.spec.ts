@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { QuestionFormPage } from './question-form.page';
+import { QuestionFormPage } from './question-create.page';
 
 describe('QuestionFormPage', () => {
   let component: QuestionFormPage;

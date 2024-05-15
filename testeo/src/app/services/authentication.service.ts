@@ -5,6 +5,7 @@ import { BehaviorSubject, from, Observable, ReplaySubject } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { AppConstants } from '../app.constants';
 import { User } from '../models/user.interface';
+import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'my-token';
 
@@ -15,7 +16,7 @@ export class AuthenticationService {
   isAuthenticated: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   token = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.loadToken();
   }
 
@@ -62,12 +63,22 @@ export class AuthenticationService {
       'Authorization': this.getAuthHeaderToken()
     });
 
-    console.log("HEADER", headers);
+    if (this.checkIfExpired()) {
+      this.logout();
+    }
+
+    console.log("HEADER", headers, this.checkIfExpired());
+
 
     const options = {
       headers: headers
     };
 
     return options;
+  }
+
+  private checkIfExpired() {
+    const expiry = (JSON.parse(atob(this.token.split('.')[1]))).exp;
+    return expiry * 1000 < Date.now();
   }
 }

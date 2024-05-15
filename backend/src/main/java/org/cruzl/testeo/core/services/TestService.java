@@ -8,6 +8,7 @@ import org.cruzl.testeo.core.model.Question;
 import org.cruzl.testeo.core.model.Test;
 import org.cruzl.testeo.core.repositories.TestRepository;
 import org.cruzl.testeo.rest.converters.MapService;
+import org.cruzl.testeo.rest.dtos.QuestionDto;
 import org.cruzl.testeo.rest.dtos.QuestionUpdateDto;
 import org.cruzl.testeo.rest.dtos.TestDto;
 import org.cruzl.testeo.rest.dtos.TestUpdateDto;
@@ -113,7 +114,7 @@ public class TestService {
     return updated;
   }
 
-  public boolean delete(Long userId, Long id) {
+  public boolean delete(@NonNull Long userId, @NonNull Long id) {
     boolean deleted = false;
     Optional<Test> testDb = this.getEntity(userId, id);
     if (testDb.isPresent()) {
@@ -122,5 +123,27 @@ public class TestService {
     }
 
     return deleted;
+  }
+
+  public Optional<QuestionDto> getQuestion(@NonNull Long userId, @NonNull Long id, @NonNull Long questionId) {
+    Optional<QuestionDto> question = Optional.empty();
+    Optional<Test> test = this.getEntityWithQuestionsAndAnswers(userId, id);
+    if (test.isPresent()) {
+      question = test.get().getQuestion(questionId).map(q -> this.mapService.convert(q));
+    }
+    return question;
+  }
+
+  public Long createQuestion(Long userId, Long id, QuestionUpdateDto question) {
+    Long questionId = null;
+    Optional<Test> testDb = this.getEntityWithQuestionsAndAnswers(userId, id);
+    if (testDb.isPresent()) {
+      Question questionDb = new Question();
+      this.mapService.update(questionDb, question);
+      testDb.get().addQuestion(questionDb);
+      questionId = this.repository.saveAndFlush(testDb.get()).getId();
+    }
+
+    return questionId;
   }
 }
