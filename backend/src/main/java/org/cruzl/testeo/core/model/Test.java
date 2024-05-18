@@ -50,8 +50,7 @@ public class Test {
   @Convert(converter = YesNoConverter.class)
   private boolean favorite;
 
-  @OneToMany(mappedBy = "test")
-  @Cascade(CascadeType.ALL)
+  @OneToMany(mappedBy = "test", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
   private List<Question> questions = new ArrayList<>();
 
   public Optional<Question> getQuestion(@NonNull Long questionId) {

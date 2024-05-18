@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -24,14 +25,19 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
 public class Answer {
+
+  public Answer(@NonNull String text, boolean correct) {
+    this.text = text;
+    this.correct = correct;
+  }
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private @Id Long id;
 
   @ManyToOne
-  @JoinColumn(name = "QUESTION_ID", nullable = false)
+  @JoinColumn(name = "QUESTION_ID")
   private Question question;
 
   private @NotNull String text;

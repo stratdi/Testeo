@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -41,7 +42,16 @@ public class Question {
   private @NotNull String statement;
   private @NotNull String feedback;
 
-  @OneToMany(mappedBy = "question")
-  @Cascade(CascadeType.ALL)
+  @OneToMany(mappedBy = "question", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
   private List<Answer> answers = new ArrayList<>();
+
+  public void clearAnswers() {
+    // answers.forEach(a -> a.setQuestion(null));
+    answers.clear();
+  }
+
+  public void addAnswer(@NonNull Answer answer) {
+    answer.setQuestion(this);
+    this.answers.add(answer);
+  }
 }

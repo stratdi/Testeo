@@ -11,7 +11,7 @@ import { TestFormComponent } from 'src/app/shared/components/test-form/test-form
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, TestFormComponent, IonButtons, IonBackButton]
 })
-export class TestFormPage implements OnInit {
+export class TestEditPage implements OnInit {
 
   constructor() { }
 

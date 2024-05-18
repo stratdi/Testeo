@@ -109,18 +109,22 @@ export class QuestionFormComponent implements OnInit {
       return;
     }
 
-    this.question = this.questionForm.value;
     this.answers.controls.forEach((control, index) => {
+      console.log("PATCHING ", index, this.questionForm.value.correctAnswer);
+
       control.patchValue({
         correct: index === this.questionForm.value.correctAnswer
       });
+
+      console.log("TAAAK", this.answers);
     });
 
-    console.log(this.questionForm);
+    this.question = this.questionForm.value;
 
     this.testService.saveQuestion(this.question, this.testId, this.questionId).subscribe(
       (response) => {
         // Edició
+        console.log("EDICIO O CREACIO:", this.questionId, this.questionId != null);
         if (this.questionId) {
           this.location.back();
         } //Creació
@@ -129,7 +133,7 @@ export class QuestionFormComponent implements OnInit {
             this.location.back();
           } else if (action === "addQuestion") {
             this.questionForm.reset();
-            console.log("SSS", this.route.snapshot.url);
+            // console.log("SSS", this.route.snapshot.url);
             const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
             this.router.navigateByUrl(`tests/${baseUrl}/${this.testId}/questions`, { replaceUrl: true });
           }

@@ -35,6 +35,8 @@ public interface MapService {
 	@Mapping(ignore = true, target = "answers")
 	public QuestionDto convert(Question question);
 
+	public QuestionDto convertWithAnswers(Question question);
+
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "userId", ignore = true)
 	@Mapping(target = "lastTimeDone", ignore = true)
@@ -43,7 +45,8 @@ public interface MapService {
 
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "test", ignore = true)
-	@Mapping(target = "answers", expression = "java(update(questionDb, question.getAnswers()))")
+	// @Mapping(target = "answers", expression = "java(update(questionDb,
+	// question.getAnswers()))")
 	public void update(@MappingTarget Question questionDb, @NonNull QuestionUpdateDto question);
 
 	@Mapping(target = "question", ignore = true)
@@ -51,11 +54,13 @@ public interface MapService {
 
 	public UserDto convert(@NonNull User user);
 
-	public default List<Answer> update(Question question, @NonNull List<AnswerUpdateDto> answers) {
-		question.getAnswers().clear();
-		List<Answer> updated = answers.stream().map(a -> this.convert(a)).collect(Collectors.toList());
-		updated.forEach(a -> a.setQuestion(question));
+	// public default List<Answer> update(Question question, @NonNull
+	// List<AnswerUpdateDto> answers) {
+	// // question.clearAnswers();
+	// List<Answer> updated = answers.stream().map(a ->
+	// this.convert(a)).collect(Collectors.toList());
+	// updated.forEach(a -> a.setQuestion(question));
 
-		return updated;
-	}
+	// return updated;
+	// }
 }

@@ -49,7 +49,7 @@ public class TestRestController {
   }
 
   @GetMapping("/{id}/questions/{questionId}")
-  public ResponseEntity<QuestionDto> get(@NonNull Long id, @NonNull Long questionId) {
+  public ResponseEntity<QuestionDto> get(@PathVariable Long id, @PathVariable Long questionId) {
     Optional<QuestionDto> question = this.testService.getQuestion(getUserId(), id, questionId);
     return question.isPresent() ? ResponseEntity.ok(question.get()) : ResponseEntity.notFound().build();
   }

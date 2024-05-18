@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.cruzl.testeo.core.model.Answer;
 import org.cruzl.testeo.core.model.Question;
 import org.cruzl.testeo.core.model.Test;
 import org.cruzl.testeo.core.repositories.TestRepository;
@@ -90,10 +91,13 @@ public class TestService {
     boolean updated = false;
     Optional<Test> testDb = this.getEntityWithQuestionsAndAnswers(userId, id);
     if (testDb.isPresent()) {
-      testDb.get().setLastTimeDone(LocalDateTime.now());
       Optional<Question> questionDb = testDb.get().getQuestion(questionId);
       if (questionDb.isPresent()) {
-        this.mapService.update(questionDb.get(), question);
+        questionDb.get().clearAnswers();
+        questionDb.get().setStatement(question.getStatement());
+        questionDb.get().setFeedback(question.getFeedback());
+
+        question.getAnswers().forEach(q -> questionDb.get().addAnswer(new Answer(q.getText(), q.isCorrect())));
         this.repository.saveAndFlush(testDb.get());
         updated = true;
       }
@@ -129,7 +133,7 @@ public class TestService {
     Optional<QuestionDto> question = Optional.empty();
     Optional<Test> test = this.getEntityWithQuestionsAndAnswers(userId, id);
     if (test.isPresent()) {
-      question = test.get().getQuestion(questionId).map(q -> this.mapService.convert(q));
+      question = test.get().getQuestion(questionId).map(q -> this.mapService.convertWithAnswers(q));
     }
     return question;
   }
