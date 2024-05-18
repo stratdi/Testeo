@@ -96,6 +96,12 @@ public class TestRestController {
     return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
   }
 
+  @DeleteMapping("/{id}/questions/{questionId}")
+  public ResponseEntity<Void> deleteQuestion(@PathVariable Long id, @PathVariable Long questionId) {
+    boolean deleted = this.testService.deleteQuestion(getUserId(), id, questionId);
+    return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<TestDto> get(@PathVariable Long id, @RequestParam(required = false) boolean loadQuestions,
       @RequestParam(required = false) boolean loadAnswers) {

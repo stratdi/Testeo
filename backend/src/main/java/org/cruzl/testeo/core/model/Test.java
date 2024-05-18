@@ -61,4 +61,9 @@ public class Test {
     question.setTest(this);
     return this.questions.add(question);
   }
+
+  public boolean deleteQuestion(@NonNull Long questionId) {
+    Optional<Question> question = this.questions.stream().filter(q -> q.getId().equals(questionId)).findFirst();
+    return question.isPresent() ? this.questions.remove(question.get()) : false;
+  }
 }

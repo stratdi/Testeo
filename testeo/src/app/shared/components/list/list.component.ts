@@ -42,7 +42,7 @@ export class ListComponent {
         this.toastService.create("Test eliminat satisfactòriament.", "bottom", true);
       }, error => {
         console.error('Error eliminant el test:', error);
-        this.toastService.create("Error eliminant el test...", "bottom", true);
+        this.toastService.create("Error eliminant el test...", "bottom", false);
       });
     }
   }

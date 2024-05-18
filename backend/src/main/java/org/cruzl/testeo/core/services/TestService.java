@@ -150,4 +150,16 @@ public class TestService {
 
     return questionId;
   }
+
+  public boolean deleteQuestion(Long userId, Long id, Long questionId) {
+    boolean deleted = false;
+    Optional<Test> testDb = this.getEntity(userId, id);
+    if (testDb.isPresent()) {
+      testDb.get().deleteQuestion(questionId);
+      this.repository.saveAndFlush(testDb.get());
+      deleted = true;
+    }
+
+    return deleted;
+  }
 }
