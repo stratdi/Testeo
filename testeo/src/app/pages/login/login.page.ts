@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AlertController, IonicModule, LoadingController } from '@ionic/angular';
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
+import { AlertController, IonicModule, LoadingController } from '@ionic/angular';
+import { IonInput } from '@ionic/angular/standalone';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ export class LoginPage implements OnInit {
     private authService: AuthenticationService,
     private alertController: AlertController,
     private router: Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -41,13 +44,7 @@ export class LoginPage implements OnInit {
       },
       async (res) => {
         await loading.dismiss();
-        const alert = await this.alertController.create({
-          header: 'Login failed',
-          message: res.error.error,
-          buttons: ['OK']
-        });
-
-        await alert.present();
+        this.toastService.create("Autenticació incorrecta.", "bottom", false);
       }
     );
   }
@@ -60,4 +57,5 @@ export class LoginPage implements OnInit {
   get password() {
     return this.credentials.get('password');
   }
+
 }

@@ -27,6 +27,7 @@
   <ion-button id="signout" expand="block" class="ion-padding-horizontal">
     Tanca la sessió
   </ion-button>
-  <ion-alert trigger="signout" header="Alert!" [buttons]="signoutButtons"></ion-alert>
+  <ion-alert trigger="signout" header="Estau segurs?" [message]="'Estau a punt de tancar la sessió de l\'aplicació.'"
+    [buttons]="signoutButtons"></ion-alert>
 
 </ion-content>

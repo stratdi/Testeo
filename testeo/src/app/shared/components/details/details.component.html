@@ -29,14 +29,15 @@
   </ion-list>
 
   <!-- Action buttons for the general info -->
-  <ion-button expand="block" class="ion-padding-horizontal" [routerLink]="['/tests/list/'+test.id+'/edit']" button
+  <ion-button expand="block" class="ion-margin-horizontal" button detail="true">Realitza el test</ion-button>
+  <ion-button expand="block" class="ion-margin-horizontal" [routerLink]="['/tests/list/'+test.id+'/edit']" button
     detail="true">Edita les dades generals</ion-button>
-  <ion-button id="test-delete" expand="block" class="ion-padding-horizontal" fill="clear">Elimina el test</ion-button>
+  <ion-button id="test-delete" expand="block" class="ion-margin-horizontal" fill="clear">Elimina el test</ion-button>
   <ion-alert trigger="test-delete" header="Estau segurs?"
     message="Estau a punt d'eliminar el test. Aquesta acció no es pot desfer." [buttons]="deleteButtons"></ion-alert>
 
   <!-- General info about the questions -->
-  <h2 class="ion-padding-horizontal">Preguntes</h2>
+  <h2 class="ion-margin-horizontal">Preguntes</h2>
   <ion-list [inset]="true" *ngIf="test.questions != null && test.questions.length > 0">
     <ion-item-sliding *ngFor="let question of test.questions; let i = index">
       <ion-item>

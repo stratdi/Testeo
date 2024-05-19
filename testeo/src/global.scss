@@ -25,10 +25,14 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-// :root {
-//   --green-color: #BDE7BD;
-//   --red-color: #FFB6B3;
-// }
+:root {
+  --ion-color-primary: #DB3066;
+  --ion-color-primary-rgb: 219, 48, 102;
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #c12a5a;
+  --ion-color-primary-tint: #df4575;
+}
 
 ion-toast {
   top: -57px !important;
