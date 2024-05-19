@@ -1,0 +1,36 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Testeo</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <h1>Inicia la sessió</h1>
+  <form (ngSubmit)="login()" [formGroup]="credentials">
+    <div class="input-group">
+      <ion-item>
+        <ion-input aria-label="Username" type="text" placeholder="Username" formControlName="username"></ion-input>
+      </ion-item>
+      <div *ngIf="(username?.dirty || username?.touched) && username?.errors" class="errors">
+        <span *ngIf="username?.errors?.['required']">Username is required</span>
+        <span *ngIf="username?.errors?.['minlength']">Username needs to be 6 characters</span>
+      </div>
+      <ion-item>
+        <ion-input aria-label="Password" type="password" placeholder="Password" formControlName="password">
+          <!-- <ion-input-password-toggle slot="end"></ion-input-password-toggle> -->
+        </ion-input>
+      </ion-item>
+      <div *ngIf="(password?.dirty || password?.touched) && password?.errors" class="errors">
+        <span *ngIf="password?.errors?.['required']">Password is required</span>
+        <span *ngIf="password?.errors?.['minlength']">Password needs to be 6 characters</span>
+      </div>
+    </div>
+
+    <ion-button id="register-button" type="button" expand="block" fill="clear">
+      No tens compte? Registra't
+    </ion-button>
+    <ion-button id="login-button" type="submit" expand="block" [disabled]="!credentials.valid" color="primary">Inicia la
+      sessió</ion-button>
+
+  </form>
+</ion-content>

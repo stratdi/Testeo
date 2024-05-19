@@ -1,0 +1,31 @@
+<form *ngIf="testForm" [formGroup]="testForm">
+
+  <h2 class="ion-padding-horizontal">Dades generals</h2>
+  <ion-list [inset]="true" lines="none">
+    <ion-item>
+      <ion-input label="Títol" labelPlacement="floating" placeholder="Introdueix un títol" [clearInput]="true"
+        errorText="Camp obligatori" [counter]="true" maxlength="50" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea label="Descripció" labelPlacement="floating" placeholder="Introdueix una descripció"
+        errorText="Camp obligatori" [autoGrow]=" true" [counter]="true" maxlength="255"
+        formControlName="description"></ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <h2 class="ion-padding-horizontal">Dades de la puntuació</h2>
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-input label="Puntuació per encert" labelPlacement="floating" type="number" step="0.01" min="0"
+        placeholder="Introdueix una puntuació" [clearInput]="true" formControlName="successScore"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Puntuació per error" labelPlacement="floating" type="number" step="0.01" max="0"
+        placeholder="Introdueix una puntuació" [clearInput]="true" formControlName="errorScore"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" class="ion-padding-horizontal" (click)="onSubmit('end')">Desa</ion-button>
+  <ion-button expand="block" class="ion-padding-horizontal" (click)="onSubmit('addQuestion')">Desa i afegeix una
+    pregunta</ion-button>
+</form>

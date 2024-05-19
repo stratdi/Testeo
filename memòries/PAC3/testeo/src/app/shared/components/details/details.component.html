@@ -1,0 +1,90 @@
+<ng-container *ngIf="test != null; else skeleton">
+  <h1 class="ion-padding-horizontal">{{ test.title }}</h1>
+  <!-- General info about the test -->
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-label>
+        <h3>Descripció</h3>
+        <p>{{ test.description }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Puntuació per encert</h3>
+        <p>{{ test.successScore ? test.successScore : 'Sense definir'}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Puntuació per error</h3>
+        <p>{{ test.errorScore ? test.errorScore : 'Sense definir' }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Darrera vegada realitzat</h3>
+        <p>{{ test.lastTimeDone ? test.lastTimeDone : 'Mai' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Action buttons for the general info -->
+  <ion-button expand="block" class="ion-margin-horizontal" button detail="true">Realitza el test</ion-button>
+  <ion-button expand="block" class="ion-margin-horizontal" [routerLink]="['/tests/list/'+test.id+'/edit']" button
+    detail="true">Edita les dades generals</ion-button>
+  <ion-button id="test-delete" expand="block" class="ion-margin-horizontal" fill="clear">Elimina el test</ion-button>
+  <ion-alert trigger="test-delete" header="Estau segurs?"
+    message="Estau a punt d'eliminar el test. Aquesta acció no es pot desfer." [buttons]="deleteButtons"></ion-alert>
+
+  <!-- General info about the questions -->
+  <h2 class="ion-margin-horizontal">Preguntes</h2>
+  <ion-list [inset]="true" *ngIf="test.questions != null && test.questions.length > 0">
+    <ion-item-sliding *ngFor="let question of test.questions; let i = index">
+      <ion-item>
+        <ion-label>{{ i + 1 }}. {{ question.statement }}</ion-label>
+      </ion-item>
+      <ion-item-options>
+
+        <ion-item-option (click)="editQuestion(question.id)">
+          <ion-icon slot="icon-only" name="pencil"></ion-icon>
+        </ion-item-option>
+
+        <ion-item-option [id]="'delete-question-'+question.id" color="danger">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+        <ion-alert [trigger]="'delete-question-'+question.id" header="Estau segurs?"
+          [message]="'Estau a punt d\'eliminar la pregunta '+question.statement+'. Aquesta acció no es pot desfer.'"
+          [buttons]="deleteQuestionButtons" (didDismiss)="deleteQuestion($event, test.id, question.id)"></ion-alert>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-note color="medium" class="ion-padding" *ngIf="test.questions == null || test.questions.length == 0">
+    Encara no heu afegit cap pregunta.
+  </ion-note>
+  <!-- Action buttons for the general info -->
+  <ion-button expand="block"
+    [class]="test.questions != null && test.questions.length > 0 ? 'ion-padding-horizontal' : 'ion-padding'"
+    [routerLink]="['/tests/list/'+test.id+'/questions']">Afegeix una pregunta
+  </ion-button>
+</ng-container>
+
+<ng-template #skeleton>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ng-template>

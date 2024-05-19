@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button shape="round" (click)="toggleFavorite()" aria-label="Favorit">
+        <ion-icon slot="icon-only" *ngIf="test != null" [name]="test.favorite ? 'heart' : 'heart-outline'"
+          aria-hidden="true"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Detall del test</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <app-details [test]="test"></app-details>
+</ion-content>
