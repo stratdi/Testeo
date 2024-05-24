@@ -16,10 +16,10 @@
 
   <h2 class="ion-padding-horizontal">Respostes</h2>
 
-  <ion-radio-group formControlName="correctAnswer">
+  <ion-radio-group [value]="'1'">
     <ion-list [inset]="true" formArrayName="answers" lines="none">
       <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i" class="ion-margin-bottom">
-        <ion-radio slot="start" [value]="i" name="tate"></ion-radio>
+        <ion-radio slot="start" [value]="1" formControlName="correct"></ion-radio>
         <ion-textarea placeholder="Introdueix el text de la resposta" errorText="Camp obligatori" [autoGrow]=" true"
           [counter]="true" maxlength="500" formControlName="text"></ion-textarea>
         <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()">
@@ -28,6 +28,8 @@
       </ion-item>
     </ion-list>
   </ion-radio-group>
+
+
 
   <ion-button expand="block" class="ion-margin-horizontal" (click)="addAnswer()">Afegeix
     opció</ion-button>

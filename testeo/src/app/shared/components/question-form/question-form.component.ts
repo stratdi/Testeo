@@ -53,17 +53,15 @@ export class QuestionFormComponent implements OnInit {
       answers: this.formBuilder.array([]),
       correctAnswer: [null, [Validators.required]]
     });
-
-    if (this.answers.length === 0) {
-      this.addAnswer();
-      this.addAnswer();
-    }
   }
 
 
   ngOnInit(): void {
     if (this.testId && this.questionId) {
       this.prepareUpdate();
+    } else {
+      this.addAnswer();
+      this.addAnswer();
     }
   }
 
@@ -72,6 +70,28 @@ export class QuestionFormComponent implements OnInit {
       this.testService.getQuestionById(this.testId, this.questionId).subscribe(
         (question) => {
           this.questionForm.patchValue(question);
+
+          let correct = null;
+          question.answers.forEach((a, i) => {
+            const answer = this.formBuilder.group({
+              text: [a.text, [Validators.required]],
+              correct: [a.correct]
+            });
+
+            if (a.correct) {
+              correct = i;
+            }
+            this.answers.push(answer);
+            console.log("IS CORR", a.correct, i);
+          });
+
+          if (correct) {
+            console.log("patch", correct);
+            this.questionForm.patchValue({ correctAnswer: correct });
+            console.log("valueeee", this.questionForm.controls['correctAnswer']?.value);
+
+          }
+
         },
         (error) => {
           console.error("Error carregant les dades:", error);
@@ -90,6 +110,12 @@ export class QuestionFormComponent implements OnInit {
   }
 
   deleteAnswer(i: number) {
+    if (i < this.correctAnswer) {
+      this.questionForm.patchValue({ correctAnswer: this.correctAnswer - 1 });
+    } else if (i == this.correctAnswer) {
+      this.questionForm.patchValue({ correctAnswer: null });
+    }
+
     this.answers.removeAt(i);
   }
 
@@ -101,8 +127,11 @@ export class QuestionFormComponent implements OnInit {
     return this.questionForm.get('answers') as FormArray;
   }
 
+  get correctAnswer() {
+    return this.questionForm.get('correctAnswer')?.value;
+  }
+
   async onSubmit(action: string) {
-    console.log("Invalid form?", this.questionForm.invalid);
     if (this.questionForm.invalid) {
       this.questionForm.markAllAsTouched();
       await this.toastService.create("El formulari té errors.", "bottom", false);
@@ -110,13 +139,9 @@ export class QuestionFormComponent implements OnInit {
     }
 
     this.answers.controls.forEach((control, index) => {
-      console.log("PATCHING ", index, this.questionForm.value.correctAnswer);
-
       control.patchValue({
         correct: index === this.questionForm.value.correctAnswer
       });
-
-      console.log("TAAAK", this.answers);
     });
 
     this.question = this.questionForm.value;
