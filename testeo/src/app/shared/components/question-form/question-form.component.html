@@ -16,26 +16,35 @@
 
   <h2 class="ion-padding-horizontal">Respostes</h2>
 
-  <ion-radio-group [value]="'1'">
-    <ion-list [inset]="true" formArrayName="answers" lines="none">
-      <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i" class="ion-margin-bottom">
-        <ion-radio slot="start" [value]="1" formControlName="correct"></ion-radio>
-        <ion-textarea placeholder="Introdueix el text de la resposta" errorText="Camp obligatori" [autoGrow]=" true"
-          [counter]="true" maxlength="500" formControlName="text"></ion-textarea>
-        <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()">
-          <ion-icon slot="icon-only" ios="logo-apple" md="trash-sharp"></ion-icon>
-        </ion-button>
+  <ion-list [inset]="true" lines="none">
+    <!-- <ion-radio-group formControlName="correctAnswer"> -->
+    <!-- <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i" class="ion-margin-bottom">
+      <ion-radio slot="start" [value]="1" formControlName="correct"></ion-radio>
+      <ion-textarea placeholder="Introdueix el text de la resposta" errorText="Camp obligatori" [autoGrow]=" true"
+        [counter]="true" maxlength="500" formControlName="text"></ion-textarea>
+      <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()">
+        <ion-icon slot="icon-only" ios="logo-apple" md="trash-sharp"></ion-icon>
+      </ion-button>
+    </ion-item> -->
+    <ion-radio-group formControlName="correctAnswer">
+      <ion-item *ngFor="let answer of answers.controls; let i = index">
+        <div [formGroupName]="i">
+          <ion-input formControlName="text" placeholder="Respuesta"></ion-input>
+          <ion-radio slot="start" [value]="i"></ion-radio>
+          <ion-button (click)="deleteAnswer(i)" *ngIf="canDelete()">Eliminar</ion-button>
+        </div>
       </ion-item>
-    </ion-list>
-  </ion-radio-group>
+    </ion-radio-group>
+    <!-- </ion-radio-group> -->
+  </ion-list>
 
 
 
-  <ion-button expand="block" class="ion-margin-horizontal" (click)="addAnswer()">Afegeix
-    opció</ion-button>
-
-  <ion-button expand="block" class="ion-margin-horizontal ion-margin-top" (click)="onSubmit('addQuestion')">Desa i
-    afegeix
-    pregunta</ion-button>
+  <ion-button expand="block" class="ion-margin-horizontal" (click)="addAnswer()">
+    Afegeix opció
+  </ion-button>
+  <ion-button expand="block" class="ion-margin-horizontal ion-margin-top" (click)="onSubmit('addQuestion')">
+    Desa i afegeix pregunta
+  </ion-button>
   <ion-button expand="block" class="ion-margin-horizontal" (click)="onSubmit('end')">Desa i acaba</ion-button>
 </form>

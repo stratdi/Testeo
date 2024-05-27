@@ -132,6 +132,7 @@ export class QuestionFormComponent implements OnInit {
   }
 
   async onSubmit(action: string) {
+    console.log(this.questionForm)
     if (this.questionForm.invalid) {
       this.questionForm.markAllAsTouched();
       await this.toastService.create("El formulari té errors.", "bottom", false);
