@@ -2,17 +2,18 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonButton, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRadio, IonRadioGroup, IonTextarea } from '@ionic/angular/standalone';
+import { IonButton, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRadio, IonRadioGroup, IonTextarea, IonCheckbox } from '@ionic/angular/standalone';
 import { QuestionForm } from 'src/app/models/question-form.interface';
 import { TestService } from 'src/app/services/test.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { atLeastOneCorrectValidator } from 'src/app/validators/answer.validator';
 
 @Component({
   selector: 'app-question-form',
   templateUrl: './question-form.component.html',
   styleUrls: ['./question-form.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonItem, IonInput, IonTextarea, IonList, IonLabel, IonButton, IonRadio, IonRadioGroup, IonIcon]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonItem, IonInput, IonTextarea, IonList, IonLabel, IonButton, IonRadio, IonRadioGroup, IonIcon, IonCheckbox]
 })
 export class QuestionFormComponent implements OnInit {
 
@@ -33,8 +34,7 @@ export class QuestionFormComponent implements OnInit {
     this.question = {
       statement: '',
       feedback: '',
-      answers: [],
-      correctAnswer: -1
+      answers: []
     };
 
     const testIdString = this.route.snapshot.paramMap.get('id');
@@ -50,8 +50,7 @@ export class QuestionFormComponent implements OnInit {
     this.questionForm = this.formBuilder.group({
       statement: [this.question ? this.question.statement : '', [Validators.required, Validators.maxLength(1000)]],
       feedback: [this.question ? this.question.feedback : '', [Validators.required, Validators.maxLength(1000)]],
-      answers: this.formBuilder.array([]),
-      correctAnswer: [null, [Validators.required]]
+      answers: this.formBuilder.array([], { validators: atLeastOneCorrectValidator() })
     });
   }
 
@@ -135,15 +134,20 @@ export class QuestionFormComponent implements OnInit {
     console.log(this.questionForm)
     if (this.questionForm.invalid) {
       this.questionForm.markAllAsTouched();
-      await this.toastService.create("El formulari té errors.", "bottom", false);
+      if (this.noAnswerSelected()) {
+        await this.toastService.create("Heu de marcar una resposta correcta.", "bottom", false);
+      } else {
+        await this.toastService.create("El formulari té errors.", "bottom", false);
+      }
+
       return;
     }
 
-    this.answers.controls.forEach((control, index) => {
-      control.patchValue({
-        correct: index === this.questionForm.value.correctAnswer
-      });
-    });
+    // this.answers.controls.forEach((control, index) => {
+    //   control.patchValue({
+    //     correct: index === this.questionForm.value.correctAnswer
+    //   });
+    // });
 
     this.question = this.questionForm.value;
 
@@ -173,5 +177,17 @@ export class QuestionFormComponent implements OnInit {
         this.toastService.create("Error desant la pregunta...", "bottom", false);
       }
     );
+  }
+
+  simpleCheck(event: any, index: number) {
+    this.answers.controls.forEach((control, i) => {
+      control.patchValue({
+        correct: i === index
+      });
+    });
+  }
+
+  noAnswerSelected(): boolean {
+    return this.answers.errors?.['atLeastOneCorrect'] ?? false;
   }
 }

@@ -6,3 +6,17 @@ ion-list {
 ion-item {
   background: white;
 }
+
+ion-checkbox {
+  position: relative;
+  width: 30px;
+
+  // --size: 32px;
+  // --checkbox-background-checked: #6815ec;
+}
+
+ion-checkbox::part(container) {
+  border-radius: 32px;
+  position: relative;
+
+}
