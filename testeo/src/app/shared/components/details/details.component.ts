@@ -62,6 +62,16 @@ export class DetailsComponent {
     this.router.navigate([`/tests/${baseUrl}/${this.test?.id}/questions/${questionId}/edit`]);
   }
 
+  public addQuestion() {
+    const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
+    this.router.navigate([`/tests/${baseUrl}/${this.test?.id}/questions`]);
+  }
+
+  public edit() {
+    const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
+    this.router.navigate([`/tests/${baseUrl}/${this.test?.id}/edit`]);
+  }
+
   deleteQuestion(ev: any, testId: number, questionId: number) {
     if (ev.detail.role === 'confirm') {
       this.testService.deleteQuestion(testId, questionId).subscribe(() => {

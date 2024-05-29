@@ -143,30 +143,16 @@ export class QuestionFormComponent implements OnInit {
       return;
     }
 
-    // this.answers.controls.forEach((control, index) => {
-    //   control.patchValue({
-    //     correct: index === this.questionForm.value.correctAnswer
-    //   });
-    // });
-
     this.question = this.questionForm.value;
 
     this.testService.saveQuestion(this.question, this.testId, this.questionId).subscribe(
       (response) => {
-        // Edició
-        console.log("EDICIO O CREACIO:", this.questionId, this.questionId != null);
-        if (this.questionId) {
+        if (action === "end") {
           this.location.back();
-        } //Creació
-        else {
-          if (action === "end") {
-            this.location.back();
-          } else if (action === "addQuestion") {
-            this.questionForm.reset();
-            // console.log("SSS", this.route.snapshot.url);
-            const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
-            this.router.navigateByUrl(`tests/${baseUrl}/${this.testId}/questions`, { replaceUrl: true });
-          }
+        } else if (action === "addQuestion") {
+          this.questionForm.reset();
+          const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
+          this.router.navigateByUrl(`tests/${baseUrl}/${this.testId}/questions`, { replaceUrl: true });
         }
 
         this.toastService.create("Pregunta desada satisfactòriament.", "bottom", true);

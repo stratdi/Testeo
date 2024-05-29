@@ -43,6 +43,18 @@ export const routes: Routes = [
         loadComponent: () => import('../test-detail/test-detail.page').then(m => m.TestDetailPage)
       },
       {
+        path: 'favorites/:id/edit',
+        loadComponent: () => import('../test-edit/test-edit.page').then(m => m.TestEditPage)
+      },
+      {
+        path: 'favorites/:id/questions',
+        loadComponent: () => import('../question-create/question-create.page').then(m => m.QuestionFormPage)
+      },
+      {
+        path: 'favorites/:id/questions/:questionId/edit',
+        loadComponent: () => import('../question-edit/question-edit.page').then(m => m.QuestionEditPage)
+      },
+      {
         path: 'tab4',
         loadComponent: () => import('../user-profile/user-profile.page').then((m) => m.UserProfilePage),
       },
