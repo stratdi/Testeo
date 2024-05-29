@@ -89,8 +89,8 @@ export class QuestionFormComponent implements OnInit {
 
         },
         (error) => {
-          console.error("Error carregant les dades:", error);
-          this.toastService.create("Error carregant les dades...", "bottom", false);
+          console.error(error);
+          this.toastService.create("No s'ha pogut carregar les dades de la pregunta...", "bottom", false);
         }
       );
     }
@@ -154,8 +154,8 @@ export class QuestionFormComponent implements OnInit {
 
       },
       (error) => {
-        console.error("Error desant la pregunta:", error);
-        this.toastService.create("Error desant la pregunta...", "bottom", false);
+        console.error(error);
+        this.toastService.create("No s'ha pogut desar la pregunta...", "bottom", false);
       }
     );
   }

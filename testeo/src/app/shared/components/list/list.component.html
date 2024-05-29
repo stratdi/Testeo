@@ -3,16 +3,17 @@
     <ion-title size="large">{{ header }}</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-list [inset]="true" *ngIf="tests && tests.length > 0; else skeleton">
   <ion-item-sliding *ngFor="let test of tests">
     <ion-item [routerLink]="[test.id+'/details']" button detail="true">
       <ion-label>{{ test.title }}</ion-label>
     </ion-item>
     <ion-item-options>
-      <ion-item-option [id]="'delete-'+test.id" color="danger">
+      <ion-item-option [id]="'delete-'+favoriteMode+'_'+test.id" color="danger">
         <ion-icon slot="icon-only" name="trash"></ion-icon>
       </ion-item-option>
-      <ion-alert [trigger]="'delete-'+test.id" header="Estau segurs?"
+      <ion-alert [trigger]="'delete-'+favoriteMode+'_'+test.id" header="Estau segurs?"
         [message]="'Estau a punt d\'eliminar el test '+test.title+'. Aquesta acció no es pot desfer.'"
         [buttons]="deleteButtons" (didDismiss)="delete($event, test.id)"></ion-alert>
     </ion-item-options>
@@ -20,7 +21,13 @@
 </ion-list>
 
 <ng-template #skeleton>
-  <ion-list>
+  <div *ngIf="!loading" class="empty ion-text-center">
+    <img id="empty-list" [src]="'assets/img/'+emptyImage" alt="image">
+    <p class="empty__header">{{ emptyHeader }}</p>
+    <p class="empty__subheader">{{ emptySubheader }} <ion-text><ion-icon name="happy-outline"></ion-icon></ion-text></p>
+  </div>
+
+  <ion-list *ngIf="loading">
     <ion-item *ngFor="let _ of [1, 2, 3]">
       <ion-label>
         <ion-skeleton-text [animated]="true" style="width: 100%;"></ion-skeleton-text>

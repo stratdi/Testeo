@@ -64,8 +64,8 @@ export class TestFormComponent implements OnInit {
           this.testForm.patchValue(test);
         },
         (error) => {
-          console.error("Error carregant les dades:", error);
-          this.toastService.create("Error carregant les dades...", "bottom", false);
+          console.error(error);
+          this.toastService.create("No s'ha pogut carregar les dades del test...", "bottom", false);
         }
       );
     }
@@ -101,8 +101,8 @@ export class TestFormComponent implements OnInit {
         this.toastService.create("Test desat satisfactòriament.", "bottom", true);
       },
       (error) => {
-        console.error("Error desant el test:", error);
-        this.toastService.create("Error desant el test...", "bottom", false);
+        console.error(error);
+        this.toastService.create("No s'ha pogut desar el test...", "bottom", false);
       }
     );
   }

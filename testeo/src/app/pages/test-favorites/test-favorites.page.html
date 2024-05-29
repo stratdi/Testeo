@@ -7,5 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <app-list [tests]="tests" [header]="'Els meus favorits'"></app-list>
+  <app-list [tests]="tests" [header]="'Els meus favorits'" [loading]="loading"
+    [emptyHeader]="'Encara no tens cap favorit'" [emptySubheader]="'Prova a afegir-ne un!'"
+    [emptyImage]="'favempty.png'" [favoriteMode]="true"></app-list>
 </ion-content>

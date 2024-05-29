@@ -7,5 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" color="light">
-  <app-list [tests]="tests" [header]="'Els meus tests'"></app-list>
+  <app-list [tests]="tests" [header]="'Els meus tests'" [loading]="loading"
+    [emptyHeader]="'Encara no has definit cap test'" [emptySubheader]="'Prova a crear-ne un!'"
+    [emptyImage]="'listempty.png'"></app-list>
 </ion-content>

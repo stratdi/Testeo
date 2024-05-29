@@ -3,6 +3,7 @@ import { Test } from 'src/app/models/test.interface';
 import { TestService } from 'src/app/services/test.service';
 import { ListComponent } from 'src/app/shared/components/list/list.component';
 import { IonContent, IonTitle, IonToolbar, IonHeader } from '@ionic/angular/standalone';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'test-favorites',
@@ -13,8 +14,12 @@ import { IonContent, IonTitle, IonToolbar, IonHeader } from '@ionic/angular/stan
 })
 export class TestFavoritesPage {
   tests?: Test[];
+  loading: boolean = true;
 
-  constructor(private testService: TestService) { }
+  constructor(
+    private testService: TestService,
+    private toastService: ToastService
+  ) { }
 
   ionViewWillEnter() {
     this.fetchTests();
@@ -24,9 +29,12 @@ export class TestFavoritesPage {
     this.testService.getFavoriteTests().subscribe(
       (data) => {
         this.tests = data;
+        this.loading = false;
       },
       (error) => {
-        console.error('Error al recuperar les dades:', error);
+        console.log(error);
+        this.toastService.create("No s'ha pogut obtenir els favorits...", "bottom", false);
+        this.loading = false;
       }
     );
   }

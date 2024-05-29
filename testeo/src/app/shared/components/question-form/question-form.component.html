@@ -16,39 +16,15 @@
 
   <h2 class="ion-padding-horizontal">Respostes</h2>
 
-  <!-- <ion-list [inset]="true" lines="none"> -->
-  <!-- <ion-radio-group formControlName="correctAnswer"> -->
-  <!-- <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i" class="ion-margin-bottom">
-      <ion-radio slot="start" [value]="1" formControlName="correct"></ion-radio>
-      <ion-textarea placeholder="Introdueix el text de la resposta" errorText="Camp obligatori" [autoGrow]=" true"
-        [counter]="true" maxlength="500" formControlName="text"></ion-textarea>
-      <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()">
-        <ion-icon slot="icon-only" ios="logo-apple" md="trash-sharp"></ion-icon>
-      </ion-button>
-    </ion-item> -->
-
-
-  <!-- <ion-radio-group formControlName="correctAnswer">
-      <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i">
-        <div>
-          <ion-input [formControlName]="questionForm.controls['answers']" placeholder="Respuesta"></ion-input>
-          <ion-radio slot="start" [value]="i"></ion-radio>
-          <ion-button (click)="deleteAnswer(i)" *ngIf="canDelete()">Eliminar</ion-button>
-        </div>
-      </ion-item>
-    </ion-radio-group> -->
-
-  <!-- </ion-list> -->
-
-
   <ion-list [inset]="true" lines="none" formArrayName="answers">
     <ion-item *ngFor="let answer of answers.controls; let i = index" [formGroupName]="i" class="ion-margin-bottom">
       <ion-checkbox formControlName="correct" (ionChange)="simpleCheck($event, i)"
         class="ion-padding-vertical ion-margin-end"></ion-checkbox>
       <ion-textarea placeholder="Introdueix el text de la resposta" errorText="Camp obligatori" [autoGrow]=" true"
         [counter]="true" maxlength="500" formControlName="text"></ion-textarea>
-      <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()">
-        <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
+      <ion-button class="ion-padding-vertical ion-margin-start" (click)="deleteAnswer(i)" *ngIf="canDelete()"
+        color="danger">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-list>

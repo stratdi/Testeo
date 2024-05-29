@@ -35,10 +35,11 @@ export class DetailsComponent {
       handler: () => {
         if (this.test) {
           this.testService.deleteTest(this.test.id).subscribe(() => {
-            this.router.navigateByUrl('/tests/list', { replaceUrl: true });
+            const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
+            this.router.navigateByUrl(`/tests/${baseUrl}`, { replaceUrl: true });
             this.toastService.create("Test eliminat satisfactòriament.", "bottom", true);
           }, error => {
-            console.error('Error eliminant el test:', error);
+            console.error(error);
             this.toastService.create("Error eliminant el test...", "bottom", true);
           });
         }
@@ -75,12 +76,23 @@ export class DetailsComponent {
   deleteQuestion(ev: any, testId: number, questionId: number) {
     if (ev.detail.role === 'confirm') {
       this.testService.deleteQuestion(testId, questionId).subscribe(() => {
-        window.location.reload();
+        this.loadTest();
         this.toastService.create("Pregunta eliminada satisfactòriament.", "bottom", true);
       }, error => {
-        console.error('Error eliminant la pregunta:', error);
+        console.error(error);
         this.toastService.create("Error eliminant la pregunta...", "bottom", false);
       });
+    }
+  }
+  loadTest(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id != null) {
+      this.testService.getTestById(+id).subscribe(
+        test => { this.test = test },
+        error => {
+          console.error(error);
+          this.toastService.create("No s'ha pogut obtenir les dades del test...", "bottom", false);
+        });
     }
   }
 }

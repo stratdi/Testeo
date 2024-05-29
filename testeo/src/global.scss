@@ -45,3 +45,27 @@ ion-toast {
 .ios ion-toolbar {
   --background: transparent;
 }
+
+ion-content {
+  // --ion-color-light: linear-gradient(45deg, #ffadc6 0%, #ffeabd 100%);
+  --ion-color-light: linear-gradient(45deg, #ffe5ed 0%, #fff7e5 100%)
+}
+
+#empty-list {
+  max-height: 50dvh;
+  text-align: center;
+}
+
+.empty {
+  &__header {
+    margin: 20px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  &__subheader {
+    margin: 0px 20px;
+    font-size: 1.3rem;
+  }
+}

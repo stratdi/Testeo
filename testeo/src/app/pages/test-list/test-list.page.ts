@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 import { ListComponent } from 'src/app/shared/components/list/list.component';
 import { Test } from '../../models/test.interface';
 import { TestService } from '../../services/test.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'test-list',
@@ -13,8 +14,12 @@ import { TestService } from '../../services/test.service';
 })
 export class TestListPage {
   tests?: Test[];
+  loading: boolean = true;
 
-  constructor(private testService: TestService) { }
+  constructor(
+    private testService: TestService,
+    private toastService: ToastService
+  ) { }
 
   ionViewWillEnter() {
     this.fetchTests();
@@ -24,9 +29,12 @@ export class TestListPage {
     this.testService.getTests().subscribe(
       (data) => {
         this.tests = data;
+        this.loading = false;
       },
       (error) => {
-        console.error('Error al recuperar les dades:', error);
+        console.error(error);
+        this.toastService.create("No s'ha pogut obtenir els llistat de tests...", "bottom", false);
+        this.loading = false;
       }
     );
   }

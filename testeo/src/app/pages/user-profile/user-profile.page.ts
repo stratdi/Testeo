@@ -6,6 +6,7 @@ import { ExploreContainerComponent } from '../../explore-container/explore-conta
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'user-profile',
@@ -17,7 +18,10 @@ import { Router } from '@angular/router';
 export class UserProfilePage {
   user?: User;
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(
+    private toastService: ToastService,
+    private authenticationService: AuthenticationService,
+    private router: Router) { }
 
   ionViewWillEnter() {
     this.fetchUser();
@@ -29,7 +33,8 @@ export class UserProfilePage {
         this.user = data;
       },
       (error) => {
-        console.error('Error al recuperar les dades:', error);
+        console.error(error);
+        this.toastService.create("No s'ha pogut obtenir les dades de l'usuari...", "bottom", false);
       }
     );
   }
@@ -46,7 +51,8 @@ export class UserProfilePage {
         this.authenticationService.logout().then(() => {
           this.router.navigate(['/login']);
         }).catch(error => {
-          console.error('Error tancant la sessió:', error);
+          console.error(error);
+          this.toastService.create("No s'ha pogut tancar la sessió.", "bottom", false);
         });
       },
     },
