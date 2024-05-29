@@ -24,8 +24,6 @@ export class TestFavoritesPage {
     this.testService.getFavoriteTests().subscribe(
       (data) => {
         this.tests = data;
-        console.log(this.tests);
-        console.log("tate");
       },
       (error) => {
         console.error('Error al recuperar les dades:', error);

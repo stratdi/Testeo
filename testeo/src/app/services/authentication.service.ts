@@ -23,7 +23,7 @@ export class AuthenticationService {
   async loadToken() {
     const token = await Preferences.get({ key: TOKEN_KEY });
     if (token && token.value) {
-      console.log('set token: ', token.value);
+      console.log('User token: ', token.value);
       this.token = token.value;
       this.isAuthenticated.next(true);
     } else {
@@ -35,7 +35,6 @@ export class AuthenticationService {
     return this.http.post(`${AppConstants.SIGNIN_URL}`, credentials).pipe(
       map((data: any) => data.token),
       switchMap((token) => {
-        console.log("PONGO EL TOKEN", this.token);
         return from(Preferences.set({ key: TOKEN_KEY, value: token }));
       }),
       tap((_) => {
@@ -66,9 +65,6 @@ export class AuthenticationService {
     if (this.checkIfExpired()) {
       this.logout();
     }
-
-    console.log("HEADER", headers, this.checkIfExpired());
-
 
     const options = {
       headers: headers

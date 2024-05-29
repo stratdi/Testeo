@@ -55,7 +55,7 @@ export const routes: Routes = [
         loadComponent: () => import('../question-edit/question-edit.page').then(m => m.QuestionEditPage)
       },
       {
-        path: 'tab4',
+        path: 'user',
         loadComponent: () => import('../user-profile/user-profile.page').then((m) => m.UserProfilePage),
       },
       {

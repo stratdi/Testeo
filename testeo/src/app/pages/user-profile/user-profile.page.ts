@@ -27,8 +27,6 @@ export class UserProfilePage {
     this.authenticationService.getUser().subscribe(
       (data) => {
         this.user = data;
-        console.log(this.user);
-        console.log("tate");
       },
       (error) => {
         console.error('Error al recuperar les dades:', error);
@@ -39,18 +37,13 @@ export class UserProfilePage {
   public signoutButtons = [
     {
       text: 'Cancel·la',
-      role: 'cancel',
-      handler: () => {
-        console.log('Alert canceled');
-      },
+      role: 'cancel'
     },
     {
       text: 'Accepta',
       role: 'confirm',
       handler: () => {
-        console.log('Alert confirmed');
         this.authenticationService.logout().then(() => {
-          console.log('Sessió tancada.');
           this.router.navigate(['/login']);
         }).catch(error => {
           console.error('Error tancant la sessió:', error);

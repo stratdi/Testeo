@@ -46,7 +46,6 @@ export class TestService {
   }
 
   saveTest(test: TestForm, testId?: number): Observable<any> {
-    console.log("Test to save", test);
     if (testId) {
       return this.http.put<TestForm>(`${AppConstants.TESTS_URL}/${testId}`, test, this.authService.getAuthHeader());
     } else {
@@ -55,12 +54,9 @@ export class TestService {
   }
 
   saveQuestion(question: QuestionForm, testId: number, questionId?: number): Observable<any> {
-    console.log("Question to save", question);
     if (questionId) {
-      console.log("EDIT");
       return this.http.put<TestForm>(`${AppConstants.TESTS_URL}/${testId}/questions/${questionId}`, question, this.authService.getAuthHeader());
     } else {
-      console.log("CREATE");
       return this.http.post<TestForm>(`${AppConstants.TESTS_URL}/${testId}/questions`, question, this.authService.getAuthHeader());
     }
   }

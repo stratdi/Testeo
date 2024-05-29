@@ -24,8 +24,6 @@ export class TestListPage {
     this.testService.getTests().subscribe(
       (data) => {
         this.tests = data;
-        console.log(this.tests);
-        console.log("tate");
       },
       (error) => {
         console.error('Error al recuperar les dades:', error);

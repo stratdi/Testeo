@@ -81,14 +81,10 @@ export class QuestionFormComponent implements OnInit {
               correct = i;
             }
             this.answers.push(answer);
-            console.log("IS CORR", a.correct, i);
           });
 
           if (correct) {
-            console.log("patch", correct);
             this.questionForm.patchValue({ correctAnswer: correct });
-            console.log("valueeee", this.questionForm.controls['correctAnswer']?.value);
-
           }
 
         },
@@ -131,7 +127,6 @@ export class QuestionFormComponent implements OnInit {
   }
 
   async onSubmit(action: string) {
-    console.log(this.questionForm)
     if (this.questionForm.invalid) {
       this.questionForm.markAllAsTouched();
       if (this.noAnswerSelected()) {

@@ -72,8 +72,6 @@ export class TestFormComponent implements OnInit {
   }
 
   async onSubmit(action: string) {
-    console.log("Invalid form?", this.testForm.invalid);
-
     if (this.testForm.invalid) {
       this.testForm.markAllAsTouched();
       await this.toastService.create("El formulari té errors.", "bottom", false);
