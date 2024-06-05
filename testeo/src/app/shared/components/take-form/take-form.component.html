@@ -4,7 +4,7 @@
     <ion-note>{{ test.description }}</ion-note>
   </div>
 
-  <form [formGroup]="takeForm" *ngIf="!evaluated">
+  <form [formGroup]="takeForm" *ngIf="!evaluated" class="ion-padding-bottom">
     <ng-container *ngFor="let question of test.questions; let i = index">
       <div class="ion-margin ion-padding-top">
         <ion-label class="question-statement">{{ i + 1 }}. {{ question.statement }}</ion-label>

@@ -2,7 +2,7 @@ import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { RouteReuseStrategy, RouterModule, provideRouter } from '@angular/router';
 import { IonicRouteStrategy } from '@ionic/angular';
-import { provideIonicAngular } from '@ionic/angular/standalone';
+import { provideIonicAngular, isPlatform } from '@ionic/angular/standalone';
 
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
@@ -22,8 +22,9 @@ registerSwiperElements();
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
-    // importProvidersFrom(IonicModule.forRoot({})),
+    provideIonicAngular({
+      backButtonText: isPlatform("ios") ? "Tate" : ""
+    }),
     importProvidersFrom(HttpClientModule),
     importProvidersFrom(RouterModule.forRoot(routes)),
     importProvidersFrom(BrowserModule),

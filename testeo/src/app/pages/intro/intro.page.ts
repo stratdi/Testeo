@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { INTRO_KEY } from 'src/app/guards/intro.guard';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
+import { IonicModule } from '@ionic/angular';
+import { INTRO_KEY } from 'src/app/guards/intro.guard';
 import { register } from 'swiper/element/bundle';
-import Swiper from 'swiper';
+
+// Init Swiper
 register();
 
 @Component({
@@ -19,20 +20,17 @@ register();
 })
 export class IntroPage implements OnInit {
 
-  @ViewChild('swiper')
-  swiperRef: ElementRef | undefined;
-  swiper?: Swiper;
   constructor(private router: Router) { }
 
   ngOnInit() { }
 
-  next() {
-    console.log("Swiper", this.swiperRef?.nativeElement());
-    this.swiper?.slideNext();
-  }
-
-  async start() {
+  async login() {
     await Preferences.set({ key: INTRO_KEY, value: 'true' });
     this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
+  async register() {
+    await Preferences.set({ key: INTRO_KEY, value: 'true' });
+    this.router.navigateByUrl('/register', { replaceUrl: true });
   }
 }

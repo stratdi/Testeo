@@ -30,11 +30,13 @@
   </ion-list>
 
 
-  <ion-button expand="block" class="ion-margin-horizontal" (click)="addAnswer()">
-    Afegeix opció
-  </ion-button>
-  <ion-button expand="block" class="ion-margin-horizontal ion-margin-top" (click)="onSubmit('addQuestion')">
-    Desa i afegeix pregunta
-  </ion-button>
-  <ion-button expand="block" class="ion-margin-horizontal" (click)="onSubmit('end')">Desa i acaba</ion-button>
+  <div class="ion-padding-bottom">
+    <ion-button expand="block" class="ion-margin-horizontal" (click)="addAnswer()">
+      Afegeix opció
+    </ion-button>
+    <ion-button expand="block" class="ion-margin-horizontal ion-margin-top" (click)="onSubmit('addQuestion')">
+      Desa i afegeix pregunta
+    </ion-button>
+    <ion-button expand="block" class="ion-margin-horizontal" (click)="onSubmit('end')">Desa i acaba</ion-button>
+  </div>
 </form>

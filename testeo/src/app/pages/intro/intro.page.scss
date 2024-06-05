@@ -1,15 +1,54 @@
+ion-content {
+  --background: linear-gradient(45deg, #ffe5ed 0%, #fff7e5 100%);
+}
+
+#logo {
+  max-height: 30vh;
+  text-align: center;
+  margin: 0 auto 30px auto;
+  margin-top: 10vh;
+
+  img {
+    max-height: 10vh;
+  }
+}
+
+#intro {
+  max-height: 60vh;
+  height: 60vh;
+}
+
 swiper-container {
-  --swiper-pagination-bullet-inactive-color: var(--ion-color-step-200, #cccccc);
-  --swiper-pagination-color: var(--ion-color-primary, #3880ff);
+  --swiper-pagination-bullet-inactive-color: var(--ion-color-primary);
+  --swiper-pagination-color: var(--ion-color-primary);
+  --swiper-navigation-color: var(--ion-color-primary);
+  --swiper-pagination-progressbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.25);
+  --swiper-scrollbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);
+  --swiper-scrollbar-drag-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.5);
+  height: 100%;
 }
 
 swiper-slide {
   display: flex;
+  position: relative;
   flex-direction: column;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  text-align: center;
+  box-sizing: border-box;
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
-ion-content {
-  --background: #0081ca;
+ion-text {
+  width: 100%;
+  height: 100%;
+}
+
+.action-btn {
+  padding-top: 18px;
 }

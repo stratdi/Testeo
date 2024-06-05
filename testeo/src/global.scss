@@ -41,6 +41,11 @@ ion-content {
   --ion-color-light: linear-gradient(45deg, #ffe5ed 0%, #fff7e5 100%)
 }
 
+.md ion-toolbar {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
 #empty-list {
   max-height: 50dvh;
   text-align: center;

@@ -1,20 +1,34 @@
 <ion-content>
-  <swiper-container #swiper [pagination]="true">
-    <swiper-slide>
-      <ion-text>
-        <!-- <img src="https://images.unsplash.com/photo-1580927752452-89d86da3fa0a" /> -->
-        <h1>Hey there!</h1>
-        <p>This is an epic app because...</p>
-        <ion-button (click)="next()" fill="outline">Next</ion-button>
-      </ion-text>
-    </swiper-slide>
-    <swiper-slide>
-      <ion-text>
-        <!-- <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" /> -->
-        <h1>It's Ionic!</h1>
-        <p>... it shows all the basics you need!</p>
-        <ion-button (click)="start()" fill="outline">Start</ion-button>
-      </ion-text>
-    </swiper-slide>
-  </swiper-container>
+  <div id="logo">
+    <div>
+      <img [src]="'assets/img/logo.png'" alt="image">
+    </div>
+    <div><img [src]="'assets/img/logolletra.png'" alt="image"></div>
+  </div>
+
+  <div id="intro">
+    <swiper-container pagination="true" navigation="true">
+      <swiper-slide>
+        <ion-text>
+          <h1>L'aplicació que et posarà a prova</h1>
+        </ion-text>
+      </swiper-slide>
+      <swiper-slide>
+        <ion-text>
+          <h1>Crea els teus tests</h1>
+          <p>I avalua't a tu mateix!</p>
+        </ion-text>
+      </swiper-slide>
+      <swiper-slide>
+        <ion-text>
+          <h1>Estudia com mai</h1>
+          <p>I deixa'ls bocabadats</p>
+          <div class="action-btn">
+            <ion-button (click)="login()" expand="block">Inicia la sessió</ion-button>
+            <ion-button (click)="register()" expand="block">Enregistra't</ion-button>
+          </div>
+        </ion-text>
+      </swiper-slide>
+    </swiper-container>
+  </div>
 </ion-content>
