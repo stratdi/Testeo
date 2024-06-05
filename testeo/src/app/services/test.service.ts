@@ -28,6 +28,10 @@ export class TestService {
     return this.http.get<Test>(`${AppConstants.TESTS_URL}/${id}?loadAnswers=true`, this.authService.getAuthHeader());
   }
 
+  evaluateTest(id: number): Observable<void> {
+    return this.http.put<void>(`${AppConstants.TESTS_URL}/${id}/evaluate`, null, this.authService.getAuthHeader());
+  }
+
   getQuestionById(id: number, questionId: number) {
     return this.http.get<Question>(`${AppConstants.TESTS_URL}/${id}/questions/${questionId}`, this.authService.getAuthHeader());
   }

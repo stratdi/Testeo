@@ -4,6 +4,7 @@ import { ListComponent } from 'src/app/shared/components/list/list.component';
 import { Test } from '../../models/test.interface';
 import { TestService } from '../../services/test.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'test-list',
@@ -15,6 +16,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class TestListPage {
   tests?: Test[];
   loading: boolean = true;
+  favoriteMode: boolean = false;
 
   constructor(
     private testService: TestService,

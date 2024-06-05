@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TestService {
@@ -138,7 +140,7 @@ public class TestService {
     return question;
   }
 
-  public Long createQuestion(Long userId, Long id, QuestionUpdateDto question) {
+  public Long createQuestion(@NonNull Long userId, @NonNull Long id, @NonNull QuestionUpdateDto question) {
     Long questionId = null;
     Optional<Test> testDb = this.getEntityWithQuestionsAndAnswers(userId, id);
     if (testDb.isPresent()) {
@@ -151,7 +153,7 @@ public class TestService {
     return questionId;
   }
 
-  public boolean deleteQuestion(Long userId, Long id, Long questionId) {
+  public boolean deleteQuestion(@NonNull Long userId, @NonNull Long id, @NonNull Long questionId) {
     boolean deleted = false;
     Optional<Test> testDb = this.getEntity(userId, id);
     if (testDb.isPresent()) {
@@ -161,5 +163,18 @@ public class TestService {
     }
 
     return deleted;
+  }
+
+  public boolean evaluate(@NonNull Long userId, @NonNull Long id) {
+    log.info("USER {}. ID {}", userId, id);
+    boolean updated = false;
+    Optional<Test> testDb = this.getEntity(userId, id);
+    if (testDb.isPresent()) {
+      testDb.get().setLastTimeDone(LocalDateTime.now());
+      this.repository.saveAndFlush(testDb.get());
+      updated = true;
+    }
+
+    return updated;
   }
 }

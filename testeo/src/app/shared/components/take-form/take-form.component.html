@@ -1,0 +1,72 @@
+<ng-container *ngIf="test">
+  <div class="ion-padding-horizontal">
+    <h3>{{ test.title }}</h3>
+    <ion-note>{{ test.description }}</ion-note>
+  </div>
+
+  <form [formGroup]="takeForm" *ngIf="!evaluated">
+    <ng-container *ngFor="let question of test.questions; let i = index">
+      <div class="ion-margin ion-padding-top">
+        <ion-label class="question-statement">{{ i + 1 }}. {{ question.statement }}</ion-label>
+      </div>
+      <ion-list [inset]="true">
+        <ion-item *ngFor="let answer of question.answers; let j = index">
+          <ion-checkbox labelPlacement="start" [value]="answer.id" (ionChange)="simpleMark($event, i, answer.id)"
+            [checked]="questions.at(i).get('answerId')?.value === answer.id">
+            <div class="ion-text-wrap">{{ answer.text }}</div>
+          </ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+
+    <ion-button expand="block" class="ion-margin-horizontal" (click)="onSubmit()">Desa i acaba</ion-button>
+  </form>
+
+  <ng-container *ngIf="evaluated">
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-label>
+          <h3>Nota obtinguda</h3>
+          <p>{{ formattedMark ? formattedMark : 0 }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>Encertos</h3>
+          <p>{{ correctAnswers }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>Errors</h3>
+          <p>{{ failedAnswers }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>Sense contestar</h3>
+          <p>{{ emptyAnswers }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-padding-bottom">
+      <ng-container *ngFor="let question of test.questions; let i = index">
+        <div class="ion-margin ion-padding-top">
+          <ion-label class="question-statement">{{ i + 1 }}. {{ question.statement }}</ion-label>
+        </div>
+        <ion-list [inset]="true">
+          <ion-item *ngFor="let answer of question.answers; let j = index"
+            [ngClass]="{'answer-correct': answer.correct, 'answer-wrong': isAnswerCheckedFailed(i, answer.id)}">
+            <div class="ion-text-wrap">{{ answer.text }}</div>
+          </ion-item>
+        </ion-list>
+        <ion-note color="medium" class="ion-margin-horizontal" *ngIf="isAnswerFailed(i)">
+          {{ question.feedback}}
+        </ion-note>
+      </ng-container>
+    </div>
+  </ng-container>
+
+
+</ng-container>

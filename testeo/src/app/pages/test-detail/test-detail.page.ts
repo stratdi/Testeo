@@ -18,6 +18,7 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class TestDetailPage implements OnInit {
   test?: Test;
+  favoriteMode: boolean = false;
 
   constructor(
     private router: Router,
@@ -72,6 +73,13 @@ export class TestDetailPage implements OnInit {
 
   ionViewWillEnter() {
     this.loadTest();
+    this.checkRoute();
+  }
+
+  checkRoute() {
+    const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
+    this.favoriteMode = "favorites" === baseUrl;
+    console.log("FAVORITE", this.favoriteMode);
   }
 
 }

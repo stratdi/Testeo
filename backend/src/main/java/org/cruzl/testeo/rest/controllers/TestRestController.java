@@ -123,12 +123,6 @@ public class TestRestController {
     return updated ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
   }
 
-  @PutMapping("/{id}/take")
-  public void take(@PathVariable String id, @RequestBody List<QuestionAnsweredDto> answers) {
-
-    // return entity;
-  }
-
   @PutMapping("/{id}/questions/{questionId}")
   public ResponseEntity<Void> updateQuestion(@PathVariable Long id, @PathVariable Long questionId,
       @RequestBody QuestionUpdateDto question) {
@@ -144,5 +138,11 @@ public class TestRestController {
         .created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/questions/{questionId}")
             .buildAndExpand(id, questionId).toUri())
         .build();
+  }
+
+  @PutMapping("/{id}/evaluate")
+  public ResponseEntity<Void> evaluate(@PathVariable Long id) {
+    boolean updated = this.testService.evaluate(getUserId(), id);
+    return updated ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
   }
 }

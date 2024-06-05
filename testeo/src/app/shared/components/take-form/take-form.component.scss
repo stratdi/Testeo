@@ -1,0 +1,30 @@
+// ion-checkbox {
+//   --size: 32px;
+//   --checkbox-background-checked: #6815ec;
+//   --checkbox-background: red;
+// }
+
+// .checkbox-wrapper {
+//   background-color: red !important;
+// }
+
+// ion-item.selected {
+//   --background: green !important;
+// }
+
+ion-label.question-statement {
+  font-weight: bold;
+}
+
+ion-note {
+  --color: #626262;
+}
+
+ion-item.answer-correct {
+  --background: var(--ion-color-success);
+}
+
+ion-item.answer-wrong {
+  --background: var(--ion-color-danger);
+  --color: #ffffff;
+}

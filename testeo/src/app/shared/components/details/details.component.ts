@@ -16,6 +16,7 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class DetailsComponent {
   @Input() test?: Test;
+  @Input() favoriteMode: boolean = false;
 
   constructor(
     private testService: TestService,
@@ -73,6 +74,11 @@ export class DetailsComponent {
     this.router.navigate([`/tests/${baseUrl}/${this.test?.id}/edit`]);
   }
 
+  public take() {
+    const baseUrl = this.route.snapshot.url.slice(0, 1).map(segment => segment.path).join('/');
+    this.router.navigate([`/tests/${baseUrl}/${this.test?.id}/take`]);
+  }
+
   deleteQuestion(ev: any, testId: number, questionId: number) {
     if (ev.detail.role === 'confirm') {
       this.testService.deleteQuestion(testId, questionId).subscribe(() => {
@@ -95,4 +101,5 @@ export class DetailsComponent {
         });
     }
   }
+
 }

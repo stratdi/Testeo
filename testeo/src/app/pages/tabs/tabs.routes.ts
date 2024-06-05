@@ -19,6 +19,10 @@ export const routes: Routes = [
         loadComponent: () => import('../test-edit/test-edit.page').then(m => m.TestEditPage)
       },
       {
+        path: 'list/:id/take',
+        loadComponent: () => import('../test-take/test-take.page').then(m => m.TestTakePage)
+      },
+      {
         path: 'list/:id/questions',
         loadComponent: () => import('../question-create/question-create.page').then(m => m.QuestionFormPage)
       },
@@ -47,6 +51,10 @@ export const routes: Routes = [
         loadComponent: () => import('../test-edit/test-edit.page').then(m => m.TestEditPage)
       },
       {
+        path: 'favorites/:id/take',
+        loadComponent: () => import('../test-take/test-take.page').then(m => m.TestTakePage)
+      },
+      {
         path: 'favorites/:id/questions',
         loadComponent: () => import('../question-create/question-create.page').then(m => m.QuestionFormPage)
       },
@@ -67,7 +75,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tests/tab1',
+    redirectTo: '/tests/list',
     pathMatch: 'full',
   },
 ];

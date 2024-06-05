@@ -5,8 +5,8 @@ export interface Test {
   userId: number;
   title: string;
   description: string;
-  successScore: string;
-  errorScore: string;
+  successScore: number;
+  errorScore: number;
   lastTimeDone: string;
   favorite: boolean;
   questions: Question[];

@@ -29,7 +29,8 @@
   </ion-list>
 
   <!-- Action buttons for the general info -->
-  <ion-button expand="block" class="ion-margin-horizontal" button detail="true">Realitza el test</ion-button>
+  <ion-button expand="block" class="ion-margin-horizontal" button detail="true"
+    [disabled]="test.questions == null || test.questions.length == 0" (click)="take()">Realitza el test</ion-button>
   <ion-button expand="block" class="ion-margin-horizontal" (click)="edit()" button detail="true">Edita les dades
     generals</ion-button>
   <ion-button id="test-delete" expand="block" class="ion-margin-horizontal" fill="clear">Elimina el test</ion-button>
@@ -49,11 +50,11 @@
           <ion-icon slot="icon-only" name="pencil"></ion-icon>
         </ion-item-option>
 
-        <ion-item-option [id]="'delete-question-'+question.id" color="danger">
+        <ion-item-option [id]="'delete-question-'+favoriteMode+'_'+question.id" color="danger">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
-        <ion-alert [trigger]="'delete-question-'+question.id" header="Estau segurs?"
-          [message]="'Estau a punt d\'eliminar la pregunta '+question.statement+'. Aquesta acció no es pot desfer.'"
+        <ion-alert [trigger]="'delete-question-'+favoriteMode+'_'+question.id" header="Estau segurs?"
+          [message]="'Estau a punt d\'eliminar la pregunta \''+question.statement+'\'. Aquesta acció no es pot desfer.'"
           [buttons]="deleteQuestionButtons" (didDismiss)="deleteQuestion($event, test.id, question.id)"></ion-alert>
       </ion-item-options>
     </ion-item-sliding>
