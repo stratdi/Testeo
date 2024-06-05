@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { IonButton, IonInput, IonItem, IonLabel, IonList, IonTextarea } from '@ionic/angular/standalone';
 import { TestForm } from 'src/app/models/test-form.interface';
+import { Test } from 'src/app/models/test.interface';
 import { TestService } from 'src/app/services/test.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -18,8 +19,8 @@ import { ToastService } from 'src/app/services/toast.service';
 })
 export class TestFormComponent implements OnInit {
 
-  @Input() test: TestForm;
-
+  @Input() testModel!: Test;
+  test: TestForm;
   testForm: FormGroup;
   testId?: number;
   testFavorite: boolean = false;
@@ -37,11 +38,6 @@ export class TestFormComponent implements OnInit {
       description: ''
     };
 
-    const testIdString = this.route.snapshot.paramMap.get('id');
-    if (testIdString) {
-      this.testId = parseInt(testIdString);
-    }
-
     this.testForm = this.formBuilder.group({
       title: [this.test ? this.test.title : '', [Validators.required, Validators.maxLength(50)]],
       description: [this.test ? this.test.description : '', [Validators.required, Validators.maxLength(255)]],
@@ -51,24 +47,15 @@ export class TestFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.testId != null) {
+    if (this.testModel != null) {
       this.prepareUpdate();
     }
   }
 
-  private async prepareUpdate() {
-    if (this.testId) {
-      this.testService.getTestById(this.testId).subscribe(
-        (test) => {
-          this.testFavorite = test.favorite;
-          this.testForm.patchValue(test);
-        },
-        (error) => {
-          console.error(error);
-          this.toastService.create("No s'ha pogut carregar les dades del test...", "bottom", false);
-        }
-      );
-    }
+  private prepareUpdate() {
+    this.testFavorite = this.testModel.favorite;
+    this.testForm.patchValue(this.testModel);
+    this.testId = this.testModel.id;
   }
 
   async onSubmit(action: string) {

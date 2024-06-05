@@ -2,12 +2,18 @@
   <div id="logo">
     <img id="empty-list" [src]="'assets/img/logo.png'" alt="image">
   </div>
-  <h1>Inicia la sessió</h1>
-  <form (ngSubmit)="login()" [formGroup]="credentials">
+  <h1>Registra't</h1>
+  <form (ngSubmit)="register()" [formGroup]="credentials">
     <div class="input-group">
       <ion-item>
         <ion-input aria-label="Usuari" type="text" placeholder="Introdueix el nom d'usuari" formControlName="username">
           <ion-icon aria-hidden="true" name="person" slot="start"></ion-icon>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input aria-label="Usuari" type="text" placeholder="Introdueix el correu electrònic"
+          formControlName="email">
+          <ion-icon aria-hidden="true" name="mail" slot="start"></ion-icon>
         </ion-input>
       </ion-item>
       <ion-item>
@@ -22,6 +28,10 @@
             <span *ngIf="username?.errors?.['required']">L'usuari és obligatori</span>
             <span *ngIf="username?.errors?.['minlength']">L'usuari ha de tenir un mínim de 3 caracters</span>
           </div>
+          <div *ngIf="(email?.dirty || email?.touched) && email?.errors" class="errors">
+            <span *ngIf="email?.errors?.['required']">El correu electrònic és obligatori</span>
+            <span *ngIf="email?.errors?.['email']">Heu d'introduir un correu electrònic vàlid</span>
+          </div>
           <div *ngIf="(password?.dirty || password?.touched) && password?.errors" class="errors">
             <span *ngIf="password?.errors?.['required']">La contrasenya és obligatòria</span>
             <span *ngIf="password?.errors?.['minlength']">La contrasenya ha de tenir un mínim de 8 caracters</span>
@@ -30,12 +40,11 @@
       </div>
     </div>
 
-    <ion-button id="register-button" type="button" expand="block" fill="clear" (click)="register()">
-      No tens compte? Registra't
+    <ion-button id="register-button" type="button" expand="block" fill="clear" (click)="login()">
+      Ja tens compte? Identifica't
     </ion-button>
-    <ion-button id="login-button" type="submit" expand="block" [disabled]="!credentials.valid" color="primary">Inicia
-      la
-      sessió</ion-button>
+    <ion-button id="register-button" type="submit" expand="block" [disabled]="!credentials.valid"
+      color="primary">Enregistra l'usuari</ion-button>
 
   </form>
 </ion-content>

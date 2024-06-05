@@ -10,14 +10,14 @@ import { ToastService } from 'src/app/services/toast.service';
 import { IonInput, IonButton, IonIcon, IonItem, IonContent, IonNote } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonInput, IonButton, IonIcon, IonItem, IonContent, IonNote
-  ]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonInput, IonButton, IonIcon, IonItem, IonContent, IonNote]
 })
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
+
   credentials!: FormGroup;
 
   constructor(
@@ -27,28 +27,30 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController,
     private toastService: ToastService
   ) {
-    addIcons({ person, key });
+    addIcons({ person, key, mail });
   }
 
   ngOnInit() {
     this.credentials = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
-  async login() {
+  async register() {
     const loading = await this.loadingController.create();
     await loading.present();
 
-    this.authService.login(this.credentials.value).subscribe(
+    this.authService.register(this.credentials.value).subscribe(
       async (res) => {
         await loading.dismiss();
-        this.router.navigateByUrl('/tests/list', { replaceUrl: true });
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+        this.toastService.create("L'usuari s'ha enregistrat satisfactòriament", "bottom", true);
       },
       async (res) => {
         await loading.dismiss();
-        this.toastService.create("Autenticació incorrecta.", "bottom", false);
+        this.toastService.create("Error enregistrar l'usuari...", "bottom", false);
       }
     );
   }
@@ -61,8 +63,13 @@ export class LoginPage implements OnInit {
     return this.credentials.get('password');
   }
 
-  async register() {
-    this.router.navigateByUrl('/register', { replaceUrl: true });
+  get email() {
+    return this.credentials.get('email');
   }
+
+  async login() {
+    this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
 
 }

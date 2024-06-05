@@ -15,6 +15,11 @@ export const routes: Routes = [
     canMatch: [introGuard, autoLoginGuard] // Check if we should show the introduction or forward to inside
   },
   {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
+    canActivate: []
+  },
+  {
     path: 'intro',
     loadComponent: () => import('./pages/intro/intro.page').then((m) => m.IntroPage)
   },
@@ -29,14 +34,11 @@ export const routes: Routes = [
   },
   {
     path: 'question-edit',
-    loadComponent: () => import('./pages/question-edit/question-edit.page').then( m => m.QuestionEditPage)
+    loadComponent: () => import('./pages/question-edit/question-edit.page').then(m => m.QuestionEditPage)
   },
   {
     path: 'test-take',
-    loadComponent: () => import('./pages/test-take/test-take.page').then( m => m.TestTakePage)
+    loadComponent: () => import('./pages/test-take/test-take.page').then(m => m.TestTakePage)
   },
-  // {
-  //   path: 'tests/:id',
-  //   loadComponent: () => import('./pages/test-detail/test-detail.page').then(m => m.TestDetailPage)
-  // },
+
 ];

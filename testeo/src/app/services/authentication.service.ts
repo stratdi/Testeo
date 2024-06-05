@@ -31,7 +31,7 @@ export class AuthenticationService {
     }
   }
 
-  login(credentials: { email: any; password: any }): Observable<any> {
+  login(credentials: { username: any; password: any }): Observable<any> {
     return this.http.post(`${AppConstants.SIGNIN_URL}`, credentials).pipe(
       map((data: any) => data.token),
       switchMap((token) => {
@@ -42,6 +42,10 @@ export class AuthenticationService {
         this.isAuthenticated.next(true);
       })
     );
+  }
+
+  register(credentials: { username: any; email: any; password: any }): Observable<any> {
+    return this.http.post(`${AppConstants.SIGNUP_URL}`, credentials);
   }
 
   logout(): Promise<void> {

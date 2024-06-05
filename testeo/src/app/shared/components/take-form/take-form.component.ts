@@ -25,7 +25,6 @@ export class TakeFormComponent implements OnInit {
   failedAnswers: number = 0;
   emptyAnswers: number = 0;
   mark: number = 0;
-  formattedMark!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,41 +32,27 @@ export class TakeFormComponent implements OnInit {
     private testService: TestService,
     private toastService: ToastService
   ) {
-    const testIdString = this.route.snapshot.paramMap.get('id');
-    if (testIdString) {
-      this.testId = parseInt(testIdString);
-    }
-
     this.takeForm = this.formBuilder.group({
       questions: this.formBuilder.array([])
     });
   }
 
   ngOnInit() {
-    this.getTest();
+    if (this.test != null) {
+      this.prepareForm();
+    }
   }
 
-  private async getTest() {
-    if (this.testId) {
-      this.testService.getTestById(this.testId).subscribe(
-        (test) => {
-          this.test = test
+  private prepareForm() {
+    this.testId = this.test.id;
+    this.test.questions.forEach((q, i) => {
+      const question = this.formBuilder.group({
+        id: [q.id, [Validators.required]],
+        answerId: []
+      });
 
-          this.test.questions.forEach((q, i) => {
-            const question = this.formBuilder.group({
-              id: [q.id, [Validators.required]],
-              answerId: []
-            });
-
-            this.questions.push(question);
-          });
-        },
-        (error) => {
-          console.error(error);
-          this.toastService.create("No s'ha pogut carregar les dades del test...", "bottom", false);
-        }
-      );
-    }
+      this.questions.push(question);
+    });
   }
 
   get questions() {
@@ -132,8 +117,10 @@ export class TakeFormComponent implements OnInit {
     if (this.test.errorScore) {
       this.mark += this.failedAnswers * this.test.errorScore;
     }
+  }
 
-    this.formattedMark = this.mark.toString();
+  hasEvaluationScore() {
+    return this.test.successScore || this.test.errorScore;
   }
 
   private isAnswerEmpty(questionIndex: number) {

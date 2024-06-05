@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Va
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonButton, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRadio, IonRadioGroup, IonTextarea, IonCheckbox } from '@ionic/angular/standalone';
 import { QuestionForm } from 'src/app/models/question-form.interface';
+import { Question } from 'src/app/models/question.interface';
 import { TestService } from 'src/app/services/test.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { atLeastOneCorrectValidator } from 'src/app/validators/answer.validator';
@@ -17,7 +18,9 @@ import { atLeastOneCorrectValidator } from 'src/app/validators/answer.validator'
 })
 export class QuestionFormComponent implements OnInit {
 
-  @Input() question: QuestionForm;
+  @Input() questionModel!: Question;
+  // @Input() question: QuestionForm;
+  question: QuestionForm;
   questionForm: FormGroup;
 
   testId!: number;
@@ -37,15 +40,15 @@ export class QuestionFormComponent implements OnInit {
       answers: []
     };
 
-    const testIdString = this.route.snapshot.paramMap.get('id');
-    if (testIdString) {
-      this.testId = parseInt(testIdString);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.testId = +id;
     }
 
-    const questionIdString = this.route.snapshot.paramMap.get('questionId');
-    if (questionIdString) {
-      this.questionId = parseInt(questionIdString);
-    }
+    // const questionIdString = this.route.snapshot.paramMap.get('questionId');
+    // if (questionIdString) {
+    //   this.questionId = parseInt(questionIdString);
+    // }
 
     this.questionForm = this.formBuilder.group({
       statement: [this.question ? this.question.statement : '', [Validators.required, Validators.maxLength(1000)]],
@@ -56,7 +59,13 @@ export class QuestionFormComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.testId && this.questionId) {
+    // if (this.testId && this.questionId) {
+    //   this.prepareUpdate();
+    // } else {
+    //   this.addAnswer();
+    //   this.addAnswer();
+    // }
+    if (this.questionModel != null) {
       this.prepareUpdate();
     } else {
       this.addAnswer();
@@ -65,36 +74,59 @@ export class QuestionFormComponent implements OnInit {
   }
 
   private async prepareUpdate() {
-    if (this.testId && this.questionId) {
-      this.testService.getQuestionById(this.testId, this.questionId).subscribe(
-        (question) => {
-          this.questionForm.patchValue(question);
+    this.questionForm.patchValue(this.questionModel);
+    this.questionId = this.questionModel.id;
 
-          let correct = null;
-          question.answers.forEach((a, i) => {
-            const answer = this.formBuilder.group({
-              text: [a.text, [Validators.required]],
-              correct: [a.correct]
-            });
+    let correct = null;
+    this.questionModel.answers.forEach((a, i) => {
+      const answer = this.formBuilder.group({
+        text: [a.text, [Validators.required]],
+        correct: [a.correct]
+      });
 
-            if (a.correct) {
-              correct = i;
-            }
-            this.answers.push(answer);
-          });
+      if (a.correct) {
+        correct = i;
+      }
 
-          if (correct) {
-            this.questionForm.patchValue({ correctAnswer: correct });
-          }
+      this.answers.push(answer);
+    });
 
-        },
-        (error) => {
-          console.error(error);
-          this.toastService.create("No s'ha pogut carregar les dades de la pregunta...", "bottom", false);
-        }
-      );
+    if (correct) {
+      this.questionForm.patchValue({ correctAnswer: correct });
     }
   }
+
+  // private async prepareUpdate() {
+  //   if (this.testId && this.questionId) {
+  //     this.testService.getQuestionById(this.testId, this.questionId).subscribe(
+  //       (question) => {
+  //         this.questionForm.patchValue(question);
+
+  //         let correct = null;
+  //         question.answers.forEach((a, i) => {
+  //           const answer = this.formBuilder.group({
+  //             text: [a.text, [Validators.required]],
+  //             correct: [a.correct]
+  //           });
+
+  //           if (a.correct) {
+  //             correct = i;
+  //           }
+  //           this.answers.push(answer);
+  //         });
+
+  //         if (correct) {
+  //           this.questionForm.patchValue({ correctAnswer: correct });
+  //         }
+
+  //       },
+  //       (error) => {
+  //         console.error(error);
+  //         this.toastService.create("No s'ha pogut carregar les dades de la pregunta...", "bottom", false);
+  //       }
+  //     );
+  //   }
+  // }
 
   addAnswer() {
     const answer = this.formBuilder.group({
@@ -151,7 +183,6 @@ export class QuestionFormComponent implements OnInit {
         }
 
         this.toastService.create("Pregunta desada satisfactòriament.", "bottom", true);
-
       },
       (error) => {
         console.error(error);

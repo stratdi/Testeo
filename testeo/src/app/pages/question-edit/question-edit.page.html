@@ -13,5 +13,5 @@
       <ion-title size="large">Edició de pregunta</ion-title>
     </ion-toolbar>
   </ion-header>
-  <app-question-form></app-question-form>
+  <app-question-form *ngIf="question" [questionModel]="question"></app-question-form>
 </ion-content>

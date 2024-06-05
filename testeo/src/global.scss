@@ -25,15 +25,6 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-:root {
-  --ion-color-primary: #DB3066;
-  --ion-color-primary-rgb: 219, 48, 102;
-  --ion-color-primary-contrast: #000000;
-  --ion-color-primary-contrast-rgb: 0, 0, 0;
-  --ion-color-primary-shade: #c12a5a;
-  --ion-color-primary-tint: #df4575;
-}
-
 ion-toast {
   top: -57px !important;
 }
@@ -47,7 +38,6 @@ ion-toast {
 }
 
 ion-content {
-  // --ion-color-light: linear-gradient(45deg, #ffadc6 0%, #ffeabd 100%);
   --ion-color-light: linear-gradient(45deg, #ffe5ed 0%, #fff7e5 100%)
 }
 

@@ -38,6 +38,11 @@ export class TestDetailPage implements OnInit {
     this.loadTest();
   }
 
+  ionViewWillEnter() {
+    this.loadTest();
+    this.checkRoute();
+  }
+
   loadTest(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id != null) {
@@ -69,11 +74,6 @@ export class TestDetailPage implements OnInit {
           this.toastService.create("No s'ha pogut marcar el test com a favorit...", "bottom", false);
         });
     }
-  }
-
-  ionViewWillEnter() {
-    this.loadTest();
-    this.checkRoute();
   }
 
   checkRoute() {
