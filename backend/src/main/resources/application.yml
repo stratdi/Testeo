@@ -15,3 +15,5 @@ app:
     jwtCookieName: testeo
     jwtSecret: '======================TesTeo=Spring==========================='
     jwtExpirationMs: 86400000
+server:
+  port: 7000

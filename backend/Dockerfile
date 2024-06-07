@@ -6,6 +6,6 @@ COPY . /app
 RUN apk add --no-cache bash
 RUN chmod +x mvnw
 
-EXPOSE 8080
+EXPOSE 7000
 
 CMD ["./mvnw", "spring-boot:run"]
