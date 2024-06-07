@@ -2,7 +2,7 @@ services:
   mariadb:
     image: mariadb:latest
     ports:
-      - "3306:3306"
+      - "3300:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=testeo
@@ -10,10 +10,11 @@ services:
       - MYSQL_PASSWORD=t3st30pwd$_
     volumes:
       - ./mariadb:/var/lib/mysql
+
   backend:
     build: ./backend
     ports:
-      - "8080:8080"
+      - "7080:8080"
     environment:
       - MYSQL_HOST=mariadb
       - MYSQL_DATABASE=testeo
@@ -26,6 +27,6 @@ services:
   testeo:
     build: ./testeo
     ports:
-      - "8100:8100"
+      - "7100:8100"
     depends_on:
       - backend
