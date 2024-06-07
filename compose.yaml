@@ -14,7 +14,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "7080:8080"
+      - "7000:7000"
     environment:
       - MYSQL_HOST=mariadb
       - MYSQL_DATABASE=testeo
@@ -27,6 +27,6 @@ services:
   testeo:
     build: ./testeo
     ports:
-      - "7100:8100"
+      - "7100:7100"
     depends_on:
       - backend
