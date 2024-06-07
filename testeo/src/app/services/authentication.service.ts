@@ -32,6 +32,7 @@ export class AuthenticationService {
   }
 
   login(credentials: { username: any; password: any }): Observable<any> {
+    console.log("URL LOGIN", AppConstants.SIGNIN_URL);
     return this.http.post(`${AppConstants.SIGNIN_URL}`, credentials).pipe(
       map((data: any) => data.token),
       switchMap((token) => {

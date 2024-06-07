@@ -2,14 +2,13 @@ spring:
   application:
     name: testeo
   jpa:
-    hibernate.ddl-auto: validate
+    hibernate.ddl-auto: ${HIBERNATE_DDL:validate}
     show-sql: false
     properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:192.168.1.151}:3306/testeo
-    # url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/testeo
-    username: testeo
-    password: 4ppl1k4t10nT3st
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/${MYSQL_DATABASE:testeo}
+    username: ${MYSQL_USER:testeo}
+    password: ${MYSQL_PASSWORD:testeopwd}
 
 app:
   security:

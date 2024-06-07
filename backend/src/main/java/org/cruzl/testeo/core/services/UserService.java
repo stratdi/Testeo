@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -28,6 +30,7 @@ public class UserService {
   }
 
   public @NonNull User save(@NonNull User user) {
+    log.info("User to persist: {}", user);
     return this.repository.saveAndFlush(user);
   }
 }

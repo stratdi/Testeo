@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,9 +31,9 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private @Id Long id;
 
-  @Min(value = 3)
+  @Size(min = 3)
   private String username;
-  @Min(value = 8)
+  @Size(min = 8)
   private String password;
 
   @Email
