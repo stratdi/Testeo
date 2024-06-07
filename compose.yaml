@@ -1,5 +1,6 @@
 services:
   mariadb:
+    container_name: tfm-mariadb
     image: mariadb:latest
     ports:
       - "3300:3306"
@@ -12,6 +13,7 @@ services:
       - ./mariadb:/var/lib/mysql
 
   backend:
+    container_name: tfm-backend
     build: ./backend
     ports:
       - "7000:7000"
@@ -25,6 +27,7 @@ services:
       - mariadb
 
   testeo:
+    container_name: tfm-testeo
     build: ./testeo
     ports:
       - "7100:7100"
