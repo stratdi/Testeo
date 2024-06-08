@@ -7,4 +7,4 @@ RUN npm install
 
 EXPOSE 7100
 
-CMD ["npx", "ionic", "serve", "--address", "testeo.cruzl.dev", "--port", "7100", "--disable-host-check"]
+CMD ["npx", "ionic", "serve", "--external", "--address=testeo.cruzl.dev", "--port", "7100", "--disable-host-check"]
