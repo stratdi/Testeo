@@ -1,0 +1,6 @@
+Enllaços de l'aplicació:
+
+- Testeo (frontend): 
+	https://testeo.cruzl.dev- Testeo (backend): 
+	https://testeo-backend.cruzl.dev- Swagger UI: 
+	https://testeo-backend.cruzl.dev/swagger-ui/index.html
